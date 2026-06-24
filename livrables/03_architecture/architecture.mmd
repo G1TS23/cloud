@@ -1,0 +1,56 @@
+%% Architecture cible Azure - ShopEasy
+%% Rendu : https://mermaid.live  ou extension Mermaid
+flowchart TB
+    Internet(("🌐 Internet"))
+    Admin["👤 Administrateur<br/>(IP autorisée)"]
+
+    Internet -->|HTTP 80 / HTTPS 443| LB
+    Admin -->|SSH 22 - IP/32| VM1
+    Admin -->|SSH 22 - IP/32| VM2
+
+    subgraph SUB["Subscription Azure - Region France Central"]
+      subgraph RG["Resource Group : rg-shopeasy-dev"]
+
+        subgraph VNET["VNet vnet-shopeasy-dev  10.10.0.0/16"]
+          subgraph SWEB["snet-web 10.10.1.0/24  (NSG: nsg-web)"]
+            LB["⚖️ Azure Load Balancer<br/>(Standard, sonde HTTP:80)"]
+            VM1["🖥️ vm-web-01<br/>Nginx"]
+            VM2["🖥️ vm-web-02<br/>Nginx"]
+            LB --> VM1
+            LB --> VM2
+          end
+
+          subgraph SDATA["snet-data 10.10.2.0/24  (NSG: nsg-data)"]
+            SQL[("🗄️ Azure SQL Database<br/>sqldb-shopeasy")]
+          end
+
+          subgraph SADMIN["snet-admin 10.10.3.0/24"]
+            BASTION["🔐 Bastion (optionnel/prod)"]
+          end
+        end
+
+        STG["📦 Storage Account<br/>stshopeasyXXXX<br/>blobs: factures / clients / archives"]
+        MON["📊 Azure Monitor<br/>métriques + alertes"]
+      end
+    end
+
+    ENTRA["🪪 Microsoft Entra ID + RBAC<br/>(identités, moindre privilège)"]
+
+    VM1 -->|SQL 1433<br/>depuis subnet web| SQL
+    VM2 -->|SQL 1433<br/>depuis subnet web| SQL
+    VM1 -->|HTTPS - SDK/API| STG
+    VM2 -->|HTTPS - SDK/API| STG
+
+    VM1 -. métriques/logs .-> MON
+    VM2 -. métriques/logs .-> MON
+    LB  -. santé .-> MON
+    SQL -. métriques .-> MON
+
+    ENTRA -. contrôle d'accès .-> RG
+
+    classDef exposed fill:#ffe0e0,stroke:#d33,stroke-width:2px;
+    classDef internal fill:#e0f0ff,stroke:#06c,stroke-width:1px;
+    classDef gov fill:#fff3cd,stroke:#b8860b,stroke-width:1px;
+    class LB exposed;
+    class VM1,VM2,SQL,STG internal;
+    class MON,ENTRA gov;
