@@ -1,3 +1,13 @@
+variable "subscription_id" {
+  description = "ID de la souscription Azure cible (compte de FORMATION). Sans valeur par defaut : il DOIT etre renseigne dans terraform.tfvars pour eviter tout deploiement accidentel sur un abonnement d'entreprise."
+  type        = string
+
+  validation {
+    condition     = can(regex("^[0-9a-fA-F-]{36}$", var.subscription_id))
+    error_message = "subscription_id doit etre un GUID Azure (36 caracteres). Recupere-le avec : az account show --query id -o tsv (apres avoir selectionne le bon compte)."
+  }
+}
+
 variable "project" {
   description = "Nom court du projet"
   type        = string

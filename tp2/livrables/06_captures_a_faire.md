@@ -1,9 +1,9 @@
-# Captures d'écran à faire pour le rendu — TP2 Terraform
+# Captures d'écran du rendu — TP2 Terraform
 
-> À réaliser **après `terraform apply`** sur une souscription de **formation / sandbox** (jamais un abonnement d'entreprise).
-> Récupérer d'abord les valeurs réelles avec `terraform output` (IP du Load Balancer, IP des VM, nom du Storage).
+> **Statut : captures réalisées** le 25/06/2026 (déploiement *Azure for Students*, région `swedencentral`).
+> Les 20 images sont dans `tp2/screenshots/` et intégrées automatiquement en **Annexe C** du PDF par `scripts/build_rendu_tp2_pdf.py` (ordre alphabétique).
 >
-> **Nommage des fichiers :** déposer les images dans `tp2/screenshots/` en respectant les noms ci-dessous (préfixe `atelier_NN-...`). Le script `scripts/build_rendu_tp2_pdf.py` les intègre automatiquement dans l'annexe « Preuves d'exécution » du PDF, dans l'ordre alphabétique des noms.
+> Ce document sert aussi de guide de reproduction. Le nommage des fichiers (préfixe `atelier_NN-...`) est conservé pour tracer chaque preuve.
 
 ## Captures terminal (workflow Terraform) — section 20, points 3 et 5
 
@@ -34,9 +34,9 @@
 
 | # | Fichier à déposer | URL | Ce qui doit être visible |
 |---|---|---|---|
-| 14 | `atelier_09-page-lb.png` | `http://<IP_LB>` | Page « ShopEasy - serveur web 1 » ou « 2 » (rafraîchir → alternance) |
-| 15 | `atelier_06-page-vm1.png` *(optionnel)* | `http://<IP_VM_1>` | Page « ShopEasy - serveur web 1 » |
-| 16 | `atelier_06-page-vm2.png` *(optionnel)* | `http://<IP_VM_2>` | Page « ShopEasy - serveur web 2 » |
+| 14 | `atelier_09-page-lb.png` + `atelier_09-curl-lb.png` | `http://20.91.219.236` | Page « ShopEasy » + round-robin web 1/2 via `curl` |
+| 15 | `atelier_06-page-vm1.png` | `http://4.223.225.195` | Page « ShopEasy - serveur web 1 » |
+| 16 | `atelier_06-page-vm2.png` | `http://4.223.111.127` | Page « ShopEasy - serveur web 2 » |
 
 ## Captures dérive et nettoyage — ateliers 11 et 14
 
@@ -53,8 +53,10 @@ Les **7 captures obligatoires** de la section 20 : init/validate/plan/apply/outp
 
 Pour viser le maximum sur la grille (workflow 4 pts, compute 4 pts, drift 2 pts, qualité 3 pts), ajouter les captures 8 à 13, 17 et 18.
 
-## Rappel valeurs (à compléter après `terraform output`)
+## Valeurs réelles du déploiement (`terraform output` du 25/06/2026)
 
 - Région : **Sweden Central** · VM : **Standard_B2ts_v2**
-- IP LB : `________` · VM1 : `________` · VM2 : `________`
-- Storage : `shopeasydevdocs________`
+- IP Load Balancer : **20.91.219.236**
+- IP VM web-1 : **4.223.225.195** · IP VM web-2 : **4.223.111.127**
+- Storage Account : **shopeasydevdocsbhvsip** (container `documents`, privé, versioning activé)
+- Resource Group : **rg-shopeasy-dev** (24 ressources)

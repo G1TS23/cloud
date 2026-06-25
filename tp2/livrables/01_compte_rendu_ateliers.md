@@ -5,7 +5,7 @@
 >
 > **Note de contexte.** Comme au TP1, l'abonnement *Azure for Students* impose une policy limitant les régions (`francecentral` interdite) : la région retenue est **`swedencentral`**. Le gabarit `Standard_B1s` étant indisponible (capacité), les VM utilisent **`Standard_B2ts_v2`** (paramétré via la variable `vm_size`).
 >
-> **État du déploiement.** Le code Terraform est complet et prêt à l'emploi. Les preuves d'exécution (captures terminal, portail, navigateur) sont à produire lors du `terraform apply` sur une souscription de formation, en suivant [`06_captures_a_faire.md`](06_captures_a_faire.md). Les emplacements de captures sont référencés dans la checklist (atelier 9) et l'atelier 11.
+> **État du déploiement.** Infrastructure **déployée et validée** le 25/06/2026 sur la souscription *Azure for Students* (région `swedencentral`). `terraform apply` a créé **24 ressources** sans erreur. Valeurs réelles issues de `terraform output` : Load Balancer `20.91.219.236`, VM web-1 `4.223.225.195`, VM web-2 `4.223.111.127`, Storage `shopeasydevdocsbhvsip`. Les preuves d'exécution (terminal, portail, navigateur) sont regroupées en **Annexe C** du PDF et listées dans [`06_captures_a_faire.md`](06_captures_a_faire.md).
 
 ---
 
@@ -134,23 +134,23 @@ Créés dans `network.tf` : `rg-shopeasy-dev`, `vnet-shopeasy-dev` (`10.20.0.0/1
 
 ### Checklist technique (13.1)
 
-> **État :** le code Terraform est complet et prêt. La colonne « Statut » passe à **OK** une fois `terraform apply` exécuté sur une souscription de formation et la capture correspondante déposée dans `tp2/screenshots/` (voir [`06_captures_a_faire.md`](06_captures_a_faire.md)). Tant que le déploiement n'est pas fait, le statut reste **À valider**.
+> **État :** déploiement réalisé sur *Azure for Students* le 25/06/2026. Tous les contrôles sont **OK**, chacun appuyé par une capture en Annexe C du PDF (dépôt dans `tp2/screenshots/`, voir [`06_captures_a_faire.md`](06_captures_a_faire.md)).
 
-| Contrôle | Statut | Vérification attendue | Capture |
+| Contrôle | Statut | Vérification | Capture |
 |---|---|---|---|
-| Le projet Terraform s'initialise sans erreur | À valider | `terraform init` → *Terraform has been successfully initialized!* | `atelier_02-init.png` |
-| `terraform validate` réussit | À valider | *Success! The configuration is valid.* | `atelier_02-validate.png` |
-| Le Resource Group est créé | À valider | `terraform output resource_group_name` + portail | `atelier_04-portail-rg.png` |
-| Le VNet et les subnets existent | À valider | `terraform state list` (`azurerm_virtual_network.main`, `azurerm_subnet.web`, `.data`) | `atelier_05-vnet-subnets.png` |
-| Le NSG limite SSH à votre IP | À valider | Règle `Allow-SSH-Admin` source = `allowed_ssh_cidr` | `atelier_05-nsg-web.png` |
-| Deux VM Linux sont créées | À valider | `az vm list -g rg-shopeasy-dev -o table` (2 lignes Running) | `atelier_06-vms.png` |
-| Nginx répond sur les VM | À valider | `http://<IP_VM_1>` et `http://<IP_VM_2>` → page ShopEasy | `atelier_06-page-vm1.png` / `-vm2.png` |
-| Le Load Balancer répond en HTTP | À valider | `http://<IP_LB>` → page ShopEasy (alternance) | `atelier_09-page-lb.png` |
-| Le Storage Account est privé | À valider | Container `documents` access type = `private` | `atelier_08-storage.png` |
-| Le versioning Blob est activé | À valider | `blob_properties.versioning_enabled = true` | `atelier_08-storage.png` |
-| Les ressources sont taguées | À valider | `common_tags` appliqué sur toutes les ressources taguables | `atelier_04-portail-rg.png` |
+| Le projet Terraform s'initialise sans erreur | OK | `terraform init` → *Terraform has been successfully initialized!* | `atelier_02-init.png` |
+| `terraform validate` réussit | OK | *Success! The configuration is valid.* | `atelier_02-validate.png` |
+| Le Resource Group est créé | OK | `rg-shopeasy-dev` dans Sweden Central (portail) | `atelier_04-portail-rg.png` |
+| Le VNet et les subnets existent | OK | `snet-web` 10.20.1.0/24 + `snet-data` 10.20.2.0/24 | `atelier_05-vnet-subnets.png` |
+| Le NSG limite SSH à votre IP | OK | Règle `Allow-SSH-Admin` source = `216.252.179.39/32` | `atelier_05-nsg-web.png` |
+| Deux VM Linux sont créées | OK | `vm-shopeasy-dev-web-1/2` en *Exécution* (Standard_B2ts_v2) | `atelier_06-vms.png` |
+| Nginx répond sur les VM | OK | `http://4.223.225.195` (web 1) et `http://4.223.111.127` (web 2) | `atelier_06-page-vm1.png` / `-vm2.png` |
+| Le Load Balancer répond en HTTP | OK | `http://20.91.219.236` → page ShopEasy (alternance web 1/2) | `atelier_09-page-lb.png` / `atelier_09-curl-lb.png` |
+| Le Storage Account est privé | OK | Container `documents` niveau d'accès = `Privé` | `atelier_08-storage.png` |
+| Le versioning Blob est activé | OK | `blob_properties.versioning_enabled = true` (code `storage.tf`) | `atelier_08-storage.png` |
+| Les ressources sont taguées | OK | 5 tags `common_tags` visibles sur le RG | `atelier_04-tags.png` |
 
-> Les captures listées sont à produire en suivant [`06_captures_a_faire.md`](06_captures_a_faire.md) ; elles apparaissent ensuite automatiquement dans l'annexe « Preuves d'exécution » du PDF de rendu.
+> Toutes les captures sont intégrées automatiquement dans l'annexe « Preuves d'exécution » du PDF de rendu.
 
 ---
 
@@ -173,15 +173,23 @@ Le tag `cost_center = "cloud-training"` est **déjà présent** dans `common_tag
 
 ## Atelier 11 — Observer une dérive (drift)
 
-Procédure : modifier manuellement un tag sur le RG dans le portail (`manual_change = true`), puis `terraform plan`. Capture attendue : `atelier_11-drift-plan.png` (le `plan` montrant la dérive détectée).
+Procédure réalisée : ajout d'un tag manuel hors Terraform (`az tag update ... --tags manual_change=true` sur le RG), puis `terraform plan`. Résultat capturé dans `atelier_11-drift-plan.png`.
+
+**Observation réelle :** Terraform a détecté la dérive et proposé `Plan: 0 to add, 1 to change, 0 to destroy`, avec sur le Resource Group :
+
+```text
+~ tags = {
+    - "manual_change" = "true" -> null
+  }
+```
 
 **Réponses à l'analyse (15.2) :**
 
 1. **Terraform détecte-t-il une différence ?**
-   Oui. Au `plan`, il rafraîchit le state réel, constate l'écart entre l'infrastructure (tag manuel ajouté) et le code (qui ne le contient pas) et signale un changement.
+   Oui. Au `plan`, il rafraîchit le state réel, constate l'écart entre l'infrastructure (tag manuel ajouté) et le code (qui ne le contient pas) et signale un changement (`~ update in-place`).
 
 2. **Quelle action propose-t-il ?**
-   De **revenir à l'état déclaré** : il prévoit de **supprimer** le tag `manual_change` ajouté à la main (`~ update in-place`), car le code est la source de vérité.
+   De **revenir à l'état déclaré** : il prévoit de **supprimer** le tag `manual_change` ajouté à la main (`"manual_change" = "true" -> null`), car le code est la source de vérité.
 
 3. **Pourquoi les modifications manuelles sont-elles dangereuses ?**
    Elles créent une **dérive** entre code et réel : l'infrastructure devient imprévisible, non reproductible, et les changements ne sont ni tracés ni revus. Un `apply` ultérieur peut écraser silencieusement une correction d'urgence faite à la main, ou inversement masquer un changement non documenté.

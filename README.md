@@ -75,16 +75,18 @@ Code complet dans [`tp2/terraform/`](tp2/terraform/) : `versions.tf`, `providers
 
 ```bash
 cd tp2/terraform
-cp terraform.tfvars.example terraform.tfvars   # puis renseigner allowed_ssh_cidr
-az login
+cp terraform.tfvars.example terraform.tfvars   # renseigner subscription_id (FORMATION) + allowed_ssh_cidr
+../../scripts/azure-account.sh login           # connexion compte student
+../../scripts/azure-account.sh status          # DOIT être vert « FORMATION »
 terraform init && terraform fmt && terraform validate
-terraform plan
-terraform apply
+../../scripts/azure-account.sh guard && terraform plan
+../../scripts/azure-account.sh guard && terraform apply
 terraform output
-terraform destroy   # obligatoire en fin de séance
+../../scripts/azure-account.sh guard && terraform destroy   # obligatoire en fin de séance
 ```
 
 > Région `swedencentral` et VM `Standard_B2ts_v2` (contraintes *Azure for Students*, paramétrées par variables).
+> **Garde-fou multi-comptes :** `subscription_id` est épinglé dans `providers.tf` et `scripts/azure-account.sh guard` bloque tout déploiement hors compte de formation (utile pour ne pas viser un abonnement d'entreprise).
 
 ### Livrables
 
@@ -95,19 +97,22 @@ terraform destroy   # obligatoire en fin de séance
 | Analyse FinOps & sécurité | [`tp2/livrables/03_analyse_finops_securite.md`](tp2/livrables/03_analyse_finops_securite.md) |
 | Mise en autonomie (option A) | [`tp2/livrables/04_autonomie_subnet_prive.md`](tp2/livrables/04_autonomie_subnet_prive.md) |
 | Note technique | [`tp2/livrables/05_note_technique.md`](tp2/livrables/05_note_technique.md) |
+| Index des captures + valeurs réelles | [`tp2/livrables/06_captures_a_faire.md`](tp2/livrables/06_captures_a_faire.md) |
+| Preuves d'exécution (20 captures) | [`tp2/screenshots/`](tp2/screenshots/) |
 | Récapitulatif de rendu | [`dist/tp2/README_RENDU_TP2.md`](dist/tp2/README_RENDU_TP2.md) |
 
 ### Rendu final
 
-Le rendu est un **PDF unique** (note technique + ateliers + analyses + quiz + arborescence + code Terraform), livré dans une archive ZIP :
+Le rendu est un **PDF unique** (note technique + ateliers + analyses + quiz + annexes + captures), livré dans une archive ZIP avec le **projet Terraform** et un **README txt** :
 
 | Fichier | Contenu |
 |---|---|
-| [`dist/tp2/Rendu_TP2_ShopEasy_Terraform_Falahi_Claverie.zip`](dist/tp2/Rendu_TP2_ShopEasy_Terraform_Falahi_Claverie.zip) | Archive de rendu (contient le PDF) |
+| [`dist/tp2/Rendu_TP2_ShopEasy_Terraform_Falahi_Claverie.zip`](dist/tp2/Rendu_TP2_ShopEasy_Terraform_Falahi_Claverie.zip) | PDF + `README_RENDU_TP2.md` + dossier `terraform/` |
 | [`dist/tp2/TP2_ShopEasy_Terraform_Falahi_Claverie.pdf`](dist/tp2/TP2_ShopEasy_Terraform_Falahi_Claverie.pdf) | Document unique répondant à tout le TP2 |
+| [`dist/tp2/README_RENDU_TP2.md`](dist/tp2/README_RENDU_TP2.md) | Mode d'emploi du rendu |
 
 ```bash
-.venv-pdf/bin/python scripts/build_rendu_tp2_pdf.py   # régénère le PDF
+.venv-pdf/bin/python scripts/build_rendu_tp2_pdf.py   # régénère PDF + ZIP
 ```
 
 ---
@@ -147,14 +152,19 @@ cloud/
 │   │   ├── loadbalancer.tf · storage.tf · outputs.tf
 │   │   ├── terraform.tfvars.example · .gitignore
 │   │   └── templates/cloud-init.yml
-│   └── livrables/
-│       ├── 01_compte_rendu_ateliers.md
-│       ├── 02_quiz_reponses.md
-│       ├── 03_analyse_finops_securite.md
-│       ├── 04_autonomie_subnet_prive.md
-│       └── 05_note_technique.md
+│   ├── livrables/
+│   │   ├── 01_compte_rendu_ateliers.md
+│   │   ├── 02_quiz_reponses.md
+│   │   ├── 03_analyse_finops_securite.md
+│   │   ├── 04_autonomie_subnet_prive.md
+│   │   ├── 05_note_technique.md
+│   │   └── 06_captures_a_faire.md
+│   └── screenshots/
+│       └── atelier_*.png   (20 preuves d'exécution)
 ├── scripts/
 │   ├── deploy_shopeasy.sh
+│   ├── azure-account.sh         (garde-fou multi-comptes Azure)
+│   ├── render_terminal_png.py   (captures terminal -> PNG)
 │   └── build_rendu_tp2_pdf.py
 └── dist/
     ├── tp1/

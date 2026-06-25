@@ -1,6 +1,12 @@
 # Copier ce fichier en terraform.tfvars puis adapter les valeurs.
 # terraform.tfvars est ignore par Git (peut contenir des informations propres a l'environnement).
 
+# OBLIGATOIRE : ID de la souscription de FORMATION (jamais l'abonnement d'entreprise).
+# Recuperer la bonne valeur APRES avoir selectionne le compte student :
+#   ./scripts/azure-account.sh use-lab        (ou: az account set --subscription "<nom student>")
+#   az account show --query id -o tsv
+subscription_id = "00000000-0000-0000-0000-000000000000"
+
 project             = "shopeasy"
 environment         = "dev"
 location            = "swedencentral"

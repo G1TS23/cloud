@@ -13,9 +13,11 @@ from __future__ import annotations
 
 import html
 import re
+import zipfile
 from pathlib import Path
 
 import markdown
+from PIL import Image
 from weasyprint import HTML
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -23,6 +25,8 @@ LIVRABLES = ROOT / "tp2" / "livrables"
 TERRAFORM = ROOT / "tp2" / "terraform"
 SCREENSHOTS = ROOT / "tp2" / "screenshots"
 OUT_PDF = ROOT / "dist" / "tp2" / "TP2_ShopEasy_Terraform_Falahi_Claverie.pdf"
+OUT_ZIP = ROOT / "dist" / "tp2" / "Rendu_TP2_ShopEasy_Terraform_Falahi_Claverie.zip"
+README_MD = ROOT / "dist" / "tp2" / "README_RENDU_TP2.md"
 
 # Ordre des livrables ecrits dans le PDF.
 DOCS = [
@@ -48,6 +52,13 @@ TF_FILES = [
     "terraform.tfvars.example",
     "templates/cloud-init.yml",
 ]
+
+# Fichiers Terraform supplementaires dans le ZIP (hors Annexe B PDF).
+TF_ZIP_EXTRA = [".gitignore", ".terraform.lock.hcl"]
+
+# Largeur utile A4 (210mm - 2x1.8cm marges) ~ 17,4 cm -> ~660 px a 96 dpi.
+PDF_IMG_MAX_WIDTH = 660
+PDF_IMG_MAX_HEIGHT = 900
 
 MD_EXTENSIONS = ["tables", "fenced_code", "sane_lists", "toc"]
 
@@ -75,10 +86,15 @@ a { color: #0969da; text-decoration: none; }
 code { font-family: "DejaVu Sans Mono", "Liberation Mono", monospace; font-size: 8.8pt;
        background: #f3f5f7; padding: 1px 4px; border-radius: 3px; }
 pre { background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 6px;
-      padding: 10px 12px; overflow-x: auto; page-break-inside: avoid; }
-pre code { background: none; padding: 0; font-size: 8.4pt; line-height: 1.4; }
-table { border-collapse: collapse; width: 100%; margin: 0.8em 0; font-size: 9pt; page-break-inside: avoid; }
-th, td { border: 1px solid #c8d0d8; padding: 5px 7px; text-align: left; vertical-align: top; }
+      padding: 8px 10px; margin: 0.5em 0;
+      white-space: pre-wrap; word-wrap: break-word; overflow-wrap: anywhere;
+      page-break-inside: auto; }
+pre code { background: none; padding: 0; font-size: 7.6pt; line-height: 1.35;
+            white-space: pre-wrap; word-break: break-all; }
+table { border-collapse: collapse; width: 100%; max-width: 100%; margin: 0.8em 0;
+        font-size: 8.5pt; page-break-inside: auto; table-layout: fixed; }
+th, td { border: 1px solid #c8d0d8; padding: 4px 6px; text-align: left; vertical-align: top;
+         word-wrap: break-word; overflow-wrap: break-word; hyphens: auto; }
 th { background: #0b3d63; color: #fff; font-weight: 600; }
 tr:nth-child(even) td { background: #f4f7fa; }
 blockquote { border-left: 4px solid #4a90c2; background: #eef5fb; margin: 0.7em 0;
@@ -101,13 +117,17 @@ hr { border: none; border-top: 1px solid #d0d7de; margin: 1.2em 0; }
 
 /* Mermaid / schema brut conserve en bloc */
 .mermaid-block { background: #fbfcfd; border: 1px dashed #9bb7cd; border-radius: 6px;
-                 padding: 10px 12px; font-size: 8.2pt; white-space: pre; font-family: "DejaVu Sans Mono", monospace; }
+                 padding: 10px 12px; font-size: 8.2pt; white-space: pre-wrap; word-wrap: break-word;
+                 font-family: "DejaVu Sans Mono", monospace; }
 .caption { font-size: 8.5pt; color: #667; font-style: italic; margin-top: -0.4em; }
 
-/* Captures d'ecran (annexe preuves) */
-.shot { page-break-inside: avoid; margin: 0.6em 0 1.2em 0; }
-.shot img { max-width: 100%; border: 1px solid #c8d0d8; border-radius: 4px; }
-.shot .shot-title { font-size: 9.5pt; font-weight: 600; color: #144e75; margin-bottom: 4px; }
+/* Captures d'ecran (annexe preuves) — redimensionnees pour tenir dans la zone A4 */
+.shot { margin: 0.8em 0 1.4em 0; page-break-inside: avoid; page-break-before: auto; }
+.shot img { display: block; width: 100%; max-width: 100%; height: auto;
+            max-height: 24cm; object-fit: contain;
+            border: 1px solid #c8d0d8; border-radius: 4px; }
+.shot .shot-title { font-size: 9pt; font-weight: 600; color: #144e75; margin-bottom: 6px;
+                    page-break-after: avoid; }
 """
 
 COVER = """
@@ -267,7 +287,21 @@ def list_screenshots() -> list[Path]:
     return sorted(p for p in SCREENSHOTS.iterdir() if p.suffix.lower() in exts)
 
 
+def prepare_shot_image(shot: Path, cache_dir: Path) -> Path:
+    """Redimensionne une capture pour qu'elle tienne dans la page PDF (evite debordement)."""
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    out = cache_dir / shot.name
+    img = Image.open(shot)
+    w, h = img.size
+    scale = min(PDF_IMG_MAX_WIDTH / w, PDF_IMG_MAX_HEIGHT / h, 1.0)
+    if scale < 1.0:
+        img = img.resize((int(w * scale), int(h * scale)), Image.Resampling.LANCZOS)
+    img.save(out, optimize=True)
+    return out
+
+
 def build_screenshots_appendix(shots: list[Path]) -> str:
+    cache_dir = OUT_PDF.parent / ".pdf-shot-cache"
     parts = ['<div class="doc-section"><h1>Annexe C &mdash; Preuves d\'ex&eacute;cution</h1>']
     parts.append(
         "<p>Captures du workflow Terraform, du portail Azure et de la page web servie "
@@ -275,13 +309,34 @@ def build_screenshots_appendix(shots: list[Path]) -> str:
         "dans <code>tp2/livrables/06_captures_a_faire.md</code>.</p>"
     )
     for shot in shots:
-        uri = shot.resolve().as_uri()
+        prepared = prepare_shot_image(shot, cache_dir)
+        uri = prepared.resolve().as_uri()
         parts.append(
             f'<div class="shot"><div class="shot-title">{html.escape(shot.name)}</div>'
             f'<img src="{uri}" alt="{html.escape(shot.name)}" /></div>'
         )
     parts.append("</div>")
     return "".join(parts)
+
+
+def build_zip() -> None:
+    """Archive ZIP de rendu : PDF + README md + sources Terraform (sans secrets ni state)."""
+    if not README_MD.exists():
+        raise FileNotFoundError(f"README manquant : {README_MD}")
+    if OUT_ZIP.exists():
+        OUT_ZIP.unlink()
+
+    with zipfile.ZipFile(OUT_ZIP, "w", zipfile.ZIP_DEFLATED) as zf:
+        zf.write(README_MD, README_MD.name)
+        zf.write(OUT_PDF, OUT_PDF.name)
+        for rel in TF_FILES + TF_ZIP_EXTRA:
+            fpath = TERRAFORM / rel
+            if not fpath.exists():
+                continue
+            zf.write(fpath, f"terraform/{rel}")
+
+    size_kb = OUT_ZIP.stat().st_size / 1024
+    print(f"ZIP genere : {OUT_ZIP} ({size_kb:.0f} Ko)")
 
 
 def main() -> None:
@@ -306,6 +361,7 @@ def main() -> None:
     HTML(string=full_html, base_url=str(ROOT)).write_pdf(str(OUT_PDF))
     size_kb = OUT_PDF.stat().st_size / 1024
     print(f"PDF genere : {OUT_PDF} ({size_kb:.0f} Ko)")
+    build_zip()
 
 
 if __name__ == "__main__":

@@ -3,6 +3,7 @@
 
 .venv/
 .venv-pdf/
+dist/tp2/.pdf-shot-cache/
 venv/
 __pycache__/
 
