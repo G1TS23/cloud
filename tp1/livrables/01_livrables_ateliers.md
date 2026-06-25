@@ -60,7 +60,7 @@ Plus on va vers le PaaS, plus la responsabilité opérationnelle bascule vers Az
 
 ## Atelier 3 — Architecture cible Azure
 
-Voir le schéma détaillé en **Étape 3** (`03_architecture/`). Composants minimaux retenus :
+Voir le schéma détaillé en **Étape 3** (`tp1/architecture/`). Composants minimaux retenus :
 
 - 1 région (`swedencentral`) + 1 Resource Group `rg-shopeasy-dev`
 - 1 VNet `10.10.0.0/16` segmenté en 3 subnets : `snet-web` (10.10.1.0/24), `snet-data` (10.10.2.0/24), `snet-admin` (10.10.3.0/24)

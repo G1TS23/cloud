@@ -21,7 +21,7 @@ Ateliers **4, 5, 6, 7, 8, 9, 10, 11** → soit **~12 captures** en comptant les 
 
 ## Pas de capture (livrables = documents déjà rédigés)
 - Atelier 1 (tableau d'analyse), 2 (besoins/services), 3 (schéma — à **exporter** depuis draw.io en PDF/PNG, pas une capture portail), 13 (incidents), 14 (risques), 15 (note DSI).
-Tout cela est déjà dans `TP1_ShopEasy_Livrables_complet.pdf`.
+Tout cela est déjà dans `dist/tp1/TP1_ShopEasy_Livrables_complet.pdf`.
 
 ## Rappels valeurs réelles (pour légender tes captures)
 - Région : **Sweden Central** · VM : **Standard_B2ts_v2** (B1s/France Central refusés par la policy Students)

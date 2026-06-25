@@ -1,5 +1,29 @@
 .env
+.env.*
 
-.idea
+.venv/
+.venv-pdf/
+venv/
+__pycache__/
 
+.idea/
+.vscode/
+.cursor/
+*.swp
+*.swo
 .DS_Store
+Thumbs.db
+
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+*.log
+*.tmp
+*.bak

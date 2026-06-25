@@ -1,0 +1,12 @@
+# Copier ce fichier en terraform.tfvars puis adapter les valeurs.
+# terraform.tfvars est ignore par Git (peut contenir des informations propres a l'environnement).
+
+project             = "shopeasy"
+environment         = "dev"
+location            = "swedencentral"
+vm_size             = "Standard_B2ts_v2"
+admin_username      = "azureuser"
+ssh_public_key_path = "~/.ssh/id_rsa.pub"
+
+# Remplacer par votre IP publique en /32 (ex: curl ifconfig.me) - ne jamais mettre 0.0.0.0/0.
+allowed_ssh_cidr = "X.X.X.X/32"
