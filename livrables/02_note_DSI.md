@@ -14,7 +14,7 @@ Cette situation présente des limites majeures : **point de défaillance unique*
 
 ## 2. Architecture Azure proposée
 
-Une architecture segmentée et redondée dans la région **France Central**, regroupée dans un Resource Group dédié (`rg-shopeasy-dev`) :
+Une architecture segmentée et redondée dans la région **Sweden Central**, regroupée dans un Resource Group dédié (`rg-shopeasy-dev`) :
 
 - **Réseau** : un Virtual Network (`10.10.0.0/16`) découpé en subnets *web*, *data* et *admin*.
 - **Couche web** : deux machines virtuelles Linux (Nginx) derrière un **Azure Load Balancer**.
@@ -58,7 +58,9 @@ L'architecture proposée reste volontairement simplifiée (cadre pédagogique). 
 
 ## 6. Estimation budgétaire
 
-Estimation indicative : **~45 à 65 €/mois** pour l'environnement de test (2 VM B1s, disques, Load Balancer, Storage, SQL serverless, monitoring). À affiner via Azure Pricing Calculator selon le volume réel.
+Estimation indicative : **~50 à 70 €/mois** pour l'environnement de test (2 VM Standard_B2ts_v2, disques, Load Balancer, Storage, SQL serverless, monitoring). À affiner via Azure Pricing Calculator selon le volume réel.
+
+> *Note : le déploiement réel a été réalisé en région **Sweden Central** avec des VM **Standard_B2ts_v2**, l'abonnement Azure for Students n'autorisant ni France Central ni le gabarit Standard_B1s.*
 
 ## 7. Actions prioritaires
 

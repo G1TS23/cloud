@@ -18,7 +18,7 @@ set -euo pipefail
 # ----------------------------------------------------------------------------
 # Variables (adaptez SUFFIX et MY_IP)
 # ----------------------------------------------------------------------------
-SUFFIX="of24"                       # initiales / numéro de groupe (unicité globale)
+SUFFIX="ofe26"                      # initiales / numéro de groupe (unicité globale)
 LOCATION="francecentral"
 RG="rg-shopeasy-dev"
 

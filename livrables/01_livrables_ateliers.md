@@ -1,7 +1,9 @@
 # TP1 Azure — ShopEasy — Livrables des ateliers
 
 > Cas fil rouge : migration de l'application de gestion de commandes **ShopEasy** vers Microsoft Azure.
-> Région cible : `francecentral` — Resource Group : `rg-shopeasy-dev`.
+> Région de déploiement : `swedencentral` — Resource Group : `rg-shopeasy-dev`.
+>
+> **Note de déploiement :** l'abonnement *Azure for Students* impose une policy limitant les régions autorisées (`francecentral` interdite). La région retenue est donc **`swedencentral`**. De plus, le gabarit `Standard_B1s` étant indisponible (capacité), les VM utilisent **`Standard_B2ts_v2`** (2 vCPU, 1 Gio, burstable v2).
 
 ---
 
@@ -60,7 +62,7 @@ Plus on va vers le PaaS, plus la responsabilité opérationnelle bascule vers Az
 
 Voir le schéma détaillé en **Étape 3** (`03_architecture/`). Composants minimaux retenus :
 
-- 1 région (`francecentral`) + 1 Resource Group `rg-shopeasy-dev`
+- 1 région (`swedencentral`) + 1 Resource Group `rg-shopeasy-dev`
 - 1 VNet `10.10.0.0/16` segmenté en 3 subnets : `snet-web` (10.10.1.0/24), `snet-data` (10.10.2.0/24), `snet-admin` (10.10.3.0/24)
 - 2 VM web (`vm-web-01`, `vm-web-02`) dans `snet-web`
 - 1 Azure Load Balancer en frontal (exposé Internet)
@@ -205,12 +207,12 @@ La base ne doit **pas** être exposée librement : règles réseau limitées, id
 
 ## Atelier 12 — Coûts et FinOps
 
-### Tableau de coûts (estimation indicative — France Central, à confirmer via Azure Pricing Calculator)
+### Tableau de coûts (estimation indicative — Sweden Central, à confirmer via Azure Pricing Calculator)
 
 | Ressource | Hypothèse | Coût estimé (€/mois) | Optimisation possible |
 |---|---|---|---|
-| VM web 1 | Standard_B1s, 730 h | ~8–10 € | Arrêt hors formation ; auto-shutdown |
-| VM web 2 | Standard_B1s, 730 h | ~8–10 € | Idem ; réservation si usage stable |
+| VM web 1 | Standard_B2ts_v2, 730 h | ~9–12 € | Arrêt hors formation ; auto-shutdown |
+| VM web 2 | Standard_B2ts_v2, 730 h | ~9–12 € | Idem ; réservation si usage stable |
 | Disques | 2× OS Standard SSD | ~5 € | Taille adaptée ; suppression si VM supprimée |
 | Load Balancer | Standard, faible trafic | ~18–20 € | Basic en test ; mutualisation |
 | Storage Account | LRS, quelques Go | ~1–2 € | Cycle de vie Cool/Archive |
