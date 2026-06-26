@@ -70,6 +70,7 @@ def main():
         sys.exit(1)
     src, dst, command = sys.argv[1], sys.argv[2], sys.argv[3]
     prompt = sys.argv[4] if len(sys.argv) > 4 else "paul@efrei:~/efrei-project/cloud/tp2/terraform$"
+    title_prefix = sys.argv[5] if len(sys.argv) > 5 else "Terraform"
 
     body = Path(src).read_text(encoding="utf-8", errors="replace").rstrip("\n")
     lines = wrap(body)
@@ -89,7 +90,7 @@ def main():
     for i, col in enumerate((DOT_RED, DOT_YEL, DOT_GRN)):
         cx = PAD + i * 26
         d.ellipse([cx, HEADER_H // 2 - 8, cx + 16, HEADER_H // 2 + 8], fill=col)
-    title = f"Terraform  -  {command}"
+    title = f"{title_prefix}  -  {command}"
     tb = d.textbbox((0, 0), title, font=font)
     d.text(((width - (tb[2] - tb[0])) / 2, (HEADER_H - FONT_SIZE) / 2 - 2),
            title, font=font, fill=DIM)

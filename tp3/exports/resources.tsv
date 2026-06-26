@@ -1,0 +1,14 @@
+pip-shopeasy-dev-web-1	Microsoft.Network/publicIPAddresses	swedencentral
+nsg-shopeasy-dev-web	Microsoft.Network/networkSecurityGroups	swedencentral
+nsg-shopeasy-dev-data	Microsoft.Network/networkSecurityGroups	swedencentral
+pip-shopeasy-dev-lb	Microsoft.Network/publicIPAddresses	swedencentral
+vnet-shopeasy-dev	Microsoft.Network/virtualNetworks	swedencentral
+pip-shopeasy-dev-web-2	Microsoft.Network/publicIPAddresses	swedencentral
+shopeasydevdocsa0rnay	Microsoft.Storage/storageAccounts	swedencentral
+lb-shopeasy-dev-web	Microsoft.Network/loadBalancers	swedencentral
+nic-shopeasy-dev-web-2	Microsoft.Network/networkInterfaces	swedencentral
+nic-shopeasy-dev-web-1	Microsoft.Network/networkInterfaces	swedencentral
+vm-shopeasy-dev-web-1	Microsoft.Compute/virtualMachines	swedencentral
+vm-shopeasy-dev-web-2	Microsoft.Compute/virtualMachines	swedencentral
+vm-shopeasy-dev-web-1_OsDisk_1_966ad9888287402d8c178819c33517c4	Microsoft.Compute/disks	swedencentral
+vm-shopeasy-dev-web-2_OsDisk_1_d26a1dc79f9043d987aff3fe36174320	Microsoft.Compute/disks	swedencentral

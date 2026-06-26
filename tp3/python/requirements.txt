@@ -1,0 +1,3 @@
+azure-identity>=1.17
+azure-mgmt-resource>=23.0
+azure-mgmt-compute>=33.0

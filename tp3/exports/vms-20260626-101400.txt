@@ -1,0 +1,4 @@
+Name                   PowerState    PublicIps       VmSize
+---------------------  ------------  --------------  ----------------
+vm-shopeasy-dev-web-1  VM running    135.225.37.122  Standard_B2ts_v2
+vm-shopeasy-dev-web-2  VM running    4.223.122.111   Standard_B2ts_v2
