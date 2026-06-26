@@ -12,6 +12,7 @@ Ce dépôt regroupe les travaux pratiques du module **Cloud Computing Azure**. C
 |---|---|---|---|---|
 | **TP1** | Architecture cloud Azure (IaaS/PaaS, réseau, VM, LB, SQL, Storage, Monitor) | Terminé | [`docs/tp1/`](docs/tp1/) | [`tp1/`](tp1/) · [`dist/tp1/`](dist/tp1/) |
 | **TP2** | Infrastructure as Code avec Terraform sur Azure | Terminé | [`docs/tp2/`](docs/tp2/) | [`tp2/`](tp2/) · [`dist/tp2/`](dist/tp2/) |
+| **TP3** | Administration & automatisation Azure (CLI, Bash, Python, Monitor, FinOps) | Terminé | [`docs/tp3/`](docs/tp3/) | [`tp3/`](tp3/) · [`dist/tp3/`](dist/tp3/) |
 
 > **Documentation :** index complet dans [`docs/README.md`](docs/README.md) — supports officiels (`tp1/`, `tp2/`) et parcours débutant ([`docs/cours/`](docs/cours/)).
 
@@ -136,6 +137,53 @@ Le rendu est un **PDF unique** (note technique + ateliers + analyses + quiz + an
 
 ---
 
+# TP3 — Administration & Automatisation Azure
+
+## Aperçu
+
+Passage du **déploiement** (TP1/TP2) à l'**exploitation** de ShopEasy : inventaire, normalisation des tags, administration des VM, stockage opérationnel, supervision Azure Monitor, FinOps et sécurité, le tout via **Azure CLI**, des **scripts Bash** relançables et un **script Python** (SDK Azure). Toutes les commandes ont été exécutées sur l'infrastructure réellement redéployée (`rg-shopeasy-dev`, `swedencentral`).
+
+## Mini-kit d'exploitation
+
+Code dans [`tp3/`](tp3/) : variables, scripts Bash, script Python et exports.
+
+```bash
+source tp3/variables.sh                                   # RG, LOCATION, VM1/2, STORAGE...
+./tp3/scripts/inventory.sh "$RG"                          # inventaire + compteurs + exports
+./tp3/scripts/vm-power.sh "$RG" status                    # etat des VM (start/stop/deallocate)
+./tp3/scripts/healthcheck.sh "$RG" "$STORAGE" operations  # 8 controles de sante
+.venv/bin/python tp3/python/inventory.py tp3/exports/inventory.csv
+```
+
+> Les scripts sont robustes (`set -euo pipefail`), commentés, journalisés (`logs/vm-power.log`) et non destructifs sans confirmation (garde-fou anti-`prod`).
+
+## Livrables
+
+| Livrable | Fichier |
+|---|---|
+| Variables d'exploitation | [`tp3/variables.sh`](tp3/variables.sh) |
+| Compte rendu des ateliers (1–12) | [`tp3/livrables/01_compte_rendu_ateliers.md`](tp3/livrables/01_compte_rendu_ateliers.md) |
+| Réponses au quiz (20 questions) | [`tp3/livrables/02_quiz_reponses.md`](tp3/livrables/02_quiz_reponses.md) |
+| Analyse FinOps & sécurité | [`tp3/livrables/03_analyse_finops_securite.md`](tp3/livrables/03_analyse_finops_securite.md) |
+| Rapport d'exploitation | [`tp3/livrables/04_rapport_exploitation.md`](tp3/livrables/04_rapport_exploitation.md) |
+| Note technique | [`tp3/livrables/05_note_technique.md`](tp3/livrables/05_note_technique.md) |
+| Index des captures + valeurs réelles | [`tp3/livrables/06_captures_a_faire.md`](tp3/livrables/06_captures_a_faire.md) |
+| Preuves d'exécution (10 captures) | [`tp3/screenshots/`](tp3/screenshots/) |
+
+## Rendu final
+
+| Fichier | Contenu |
+|---|---|
+| [`dist/tp3/Rendu_TP3_ShopEasy_Administration_Falahi_Claverie.zip`](dist/tp3/Rendu_TP3_ShopEasy_Administration_Falahi_Claverie.zip) | PDF + README + scripts + Python + exports |
+| [`dist/tp3/TP3_ShopEasy_Administration_Falahi_Claverie.pdf`](dist/tp3/TP3_ShopEasy_Administration_Falahi_Claverie.pdf) | Document unique répondant à tout le TP3 (41 pages) |
+| [`dist/tp3/README_RENDU_TP3.md`](dist/tp3/README_RENDU_TP3.md) | Mode d'emploi du rendu |
+
+```bash
+.venv-pdf/bin/python scripts/build_rendu_tp3_pdf.py   # régénère PDF + ZIP
+```
+
+---
+
 # Structure du projet
 
 ```
@@ -189,20 +237,42 @@ cloud/
 │   │   └── 06_captures_a_faire.md
 │   └── screenshots/
 │       └── atelier_*.png   (20 preuves d'exécution)
+├── tp3/
+│   ├── variables.sh             (variables d'exploitation)
+│   ├── scripts/
+│   │   ├── inventory.sh · vm-power.sh · healthcheck.sh
+│   ├── python/
+│   │   ├── inventory.py · requirements.txt
+│   ├── exports/                 (resources.json/.tsv, inventory.csv, vms-*.txt)
+│   ├── logs/vm-power.log
+│   ├── livrables/
+│   │   ├── 01_compte_rendu_ateliers.md
+│   │   ├── 02_quiz_reponses.md
+│   │   ├── 03_analyse_finops_securite.md
+│   │   ├── 04_rapport_exploitation.md
+│   │   ├── 05_note_technique.md
+│   │   └── 06_captures_a_faire.md
+│   └── screenshots/
+│       └── atelier_*.png   (10 preuves d'exécution)
 ├── scripts/
 │   ├── deploy_shopeasy.sh
 │   ├── azure-account.sh         (garde-fou multi-comptes Azure)
 │   ├── render_terminal_png.py   (captures terminal -> PNG)
-│   └── build_rendu_tp2_pdf.py
+│   ├── build_rendu_tp2_pdf.py
+│   └── build_rendu_tp3_pdf.py
 └── dist/
     ├── tp1/
     │   ├── TP1_ShopEasy_Livrables_complet.pdf
     │   ├── Rendu_TP1_ShopEasy_Falahi_Claverie.zip
     │   └── *.pdf
-    └── tp2/
-        ├── TP2_ShopEasy_Terraform_Falahi_Claverie.pdf
-        ├── Rendu_TP2_ShopEasy_Terraform_Falahi_Claverie.zip
-        └── README_RENDU_TP2.md
+    ├── tp2/
+    │   ├── TP2_ShopEasy_Terraform_Falahi_Claverie.pdf
+    │   ├── Rendu_TP2_ShopEasy_Terraform_Falahi_Claverie.zip
+    │   └── README_RENDU_TP2.md
+    └── tp3/
+        ├── TP3_ShopEasy_Administration_Falahi_Claverie.pdf
+        ├── Rendu_TP3_ShopEasy_Administration_Falahi_Claverie.zip
+        └── README_RENDU_TP3.md
 ```
 
 ---

@@ -1,0 +1,188 @@
+[
+  {
+    "id": "/subscriptions/cdca6d99-645a-4251-85e1-f078d1bd66ff/resourceGroups/rg-shopeasy-dev/providers/Microsoft.Network/publicIPAddresses/pip-shopeasy-dev-web-1",
+    "location": "swedencentral",
+    "name": "pip-shopeasy-dev-web-1",
+    "tags": {
+      "cost_center": "cloud-training",
+      "environment": "dev",
+      "managed_by": "terraform",
+      "owner": "formation",
+      "project": "shopeasy"
+    },
+    "type": "Microsoft.Network/publicIPAddresses"
+  },
+  {
+    "id": "/subscriptions/cdca6d99-645a-4251-85e1-f078d1bd66ff/resourceGroups/rg-shopeasy-dev/providers/Microsoft.Network/networkSecurityGroups/nsg-shopeasy-dev-web",
+    "location": "swedencentral",
+    "name": "nsg-shopeasy-dev-web",
+    "tags": {
+      "cost_center": "cloud-training",
+      "environment": "dev",
+      "managed_by": "terraform",
+      "owner": "formation",
+      "project": "shopeasy"
+    },
+    "type": "Microsoft.Network/networkSecurityGroups"
+  },
+  {
+    "id": "/subscriptions/cdca6d99-645a-4251-85e1-f078d1bd66ff/resourceGroups/rg-shopeasy-dev/providers/Microsoft.Network/networkSecurityGroups/nsg-shopeasy-dev-data",
+    "location": "swedencentral",
+    "name": "nsg-shopeasy-dev-data",
+    "tags": {
+      "cost_center": "cloud-training",
+      "environment": "dev",
+      "managed_by": "terraform",
+      "owner": "formation",
+      "project": "shopeasy"
+    },
+    "type": "Microsoft.Network/networkSecurityGroups"
+  },
+  {
+    "id": "/subscriptions/cdca6d99-645a-4251-85e1-f078d1bd66ff/resourceGroups/rg-shopeasy-dev/providers/Microsoft.Network/publicIPAddresses/pip-shopeasy-dev-lb",
+    "location": "swedencentral",
+    "name": "pip-shopeasy-dev-lb",
+    "tags": {
+      "cost_center": "cloud-training",
+      "environment": "dev",
+      "managed_by": "terraform",
+      "owner": "formation",
+      "project": "shopeasy"
+    },
+    "type": "Microsoft.Network/publicIPAddresses"
+  },
+  {
+    "id": "/subscriptions/cdca6d99-645a-4251-85e1-f078d1bd66ff/resourceGroups/rg-shopeasy-dev/providers/Microsoft.Network/virtualNetworks/vnet-shopeasy-dev",
+    "location": "swedencentral",
+    "name": "vnet-shopeasy-dev",
+    "tags": {
+      "cost_center": "cloud-training",
+      "environment": "dev",
+      "managed_by": "terraform",
+      "owner": "formation",
+      "project": "shopeasy"
+    },
+    "type": "Microsoft.Network/virtualNetworks"
+  },
+  {
+    "id": "/subscriptions/cdca6d99-645a-4251-85e1-f078d1bd66ff/resourceGroups/rg-shopeasy-dev/providers/Microsoft.Network/publicIPAddresses/pip-shopeasy-dev-web-2",
+    "location": "swedencentral",
+    "name": "pip-shopeasy-dev-web-2",
+    "tags": {
+      "cost_center": "cloud-training",
+      "environment": "dev",
+      "managed_by": "terraform",
+      "owner": "formation",
+      "project": "shopeasy"
+    },
+    "type": "Microsoft.Network/publicIPAddresses"
+  },
+  {
+    "id": "/subscriptions/cdca6d99-645a-4251-85e1-f078d1bd66ff/resourceGroups/rg-shopeasy-dev/providers/Microsoft.Storage/storageAccounts/shopeasydevdocsa0rnay",
+    "location": "swedencentral",
+    "name": "shopeasydevdocsa0rnay",
+    "tags": {
+      "cost_center": "cloud-training",
+      "environment": "dev",
+      "managed_by": "terraform",
+      "owner": "formation",
+      "project": "shopeasy"
+    },
+    "type": "Microsoft.Storage/storageAccounts"
+  },
+  {
+    "id": "/subscriptions/cdca6d99-645a-4251-85e1-f078d1bd66ff/resourceGroups/rg-shopeasy-dev/providers/Microsoft.Network/loadBalancers/lb-shopeasy-dev-web",
+    "location": "swedencentral",
+    "name": "lb-shopeasy-dev-web",
+    "tags": {
+      "cost_center": "cloud-training",
+      "environment": "dev",
+      "managed_by": "terraform",
+      "owner": "formation",
+      "project": "shopeasy"
+    },
+    "type": "Microsoft.Network/loadBalancers"
+  },
+  {
+    "id": "/subscriptions/cdca6d99-645a-4251-85e1-f078d1bd66ff/resourceGroups/rg-shopeasy-dev/providers/Microsoft.Network/networkInterfaces/nic-shopeasy-dev-web-2",
+    "location": "swedencentral",
+    "name": "nic-shopeasy-dev-web-2",
+    "tags": {
+      "cost_center": "cloud-training",
+      "environment": "dev",
+      "managed_by": "terraform",
+      "owner": "formation",
+      "project": "shopeasy"
+    },
+    "type": "Microsoft.Network/networkInterfaces"
+  },
+  {
+    "id": "/subscriptions/cdca6d99-645a-4251-85e1-f078d1bd66ff/resourceGroups/rg-shopeasy-dev/providers/Microsoft.Network/networkInterfaces/nic-shopeasy-dev-web-1",
+    "location": "swedencentral",
+    "name": "nic-shopeasy-dev-web-1",
+    "tags": {
+      "cost_center": "cloud-training",
+      "environment": "dev",
+      "managed_by": "terraform",
+      "owner": "formation",
+      "project": "shopeasy"
+    },
+    "type": "Microsoft.Network/networkInterfaces"
+  },
+  {
+    "id": "/subscriptions/cdca6d99-645a-4251-85e1-f078d1bd66ff/resourceGroups/rg-shopeasy-dev/providers/Microsoft.Compute/virtualMachines/vm-shopeasy-dev-web-1",
+    "location": "swedencentral",
+    "name": "vm-shopeasy-dev-web-1",
+    "tags": {
+      "Application": "shopeasy",
+      "Role": "web",
+      "cost_center": "cloud-training",
+      "environment": "dev",
+      "managed_by": "terraform",
+      "owner": "formation",
+      "project": "shopeasy"
+    },
+    "type": "Microsoft.Compute/virtualMachines"
+  },
+  {
+    "id": "/subscriptions/cdca6d99-645a-4251-85e1-f078d1bd66ff/resourceGroups/rg-shopeasy-dev/providers/Microsoft.Compute/virtualMachines/vm-shopeasy-dev-web-2",
+    "location": "swedencentral",
+    "name": "vm-shopeasy-dev-web-2",
+    "tags": {
+      "Application": "shopeasy",
+      "Role": "web",
+      "cost_center": "cloud-training",
+      "environment": "dev",
+      "managed_by": "terraform",
+      "owner": "formation",
+      "project": "shopeasy"
+    },
+    "type": "Microsoft.Compute/virtualMachines"
+  },
+  {
+    "id": "/subscriptions/cdca6d99-645a-4251-85e1-f078d1bd66ff/resourceGroups/RG-SHOPEASY-DEV/providers/Microsoft.Compute/disks/vm-shopeasy-dev-web-1_OsDisk_1_966ad9888287402d8c178819c33517c4",
+    "location": "swedencentral",
+    "name": "vm-shopeasy-dev-web-1_OsDisk_1_966ad9888287402d8c178819c33517c4",
+    "tags": {
+      "cost_center": "cloud-training",
+      "environment": "dev",
+      "managed_by": "terraform",
+      "owner": "formation",
+      "project": "shopeasy"
+    },
+    "type": "Microsoft.Compute/disks"
+  },
+  {
+    "id": "/subscriptions/cdca6d99-645a-4251-85e1-f078d1bd66ff/resourceGroups/RG-SHOPEASY-DEV/providers/Microsoft.Compute/disks/vm-shopeasy-dev-web-2_OsDisk_1_d26a1dc79f9043d987aff3fe36174320",
+    "location": "swedencentral",
+    "name": "vm-shopeasy-dev-web-2_OsDisk_1_d26a1dc79f9043d987aff3fe36174320",
+    "tags": {
+      "cost_center": "cloud-training",
+      "environment": "dev",
+      "managed_by": "terraform",
+      "owner": "formation",
+      "project": "shopeasy"
+    },
+    "type": "Microsoft.Compute/disks"
+  }
+]

@@ -1,0 +1,16 @@
+﻿nom;type;region;tags;role
+pip-shopeasy-dev-web-1;Microsoft.Network/publicIPAddresses;swedencentral;"cost_center=cloud-training;environment=dev;managed_by=terraform;owner=formation;project=shopeasy";Adresse IP publique
+nsg-shopeasy-dev-web;Microsoft.Network/networkSecurityGroups;swedencentral;"cost_center=cloud-training;environment=dev;managed_by=terraform;owner=formation;project=shopeasy";Pare-feu réseau (NSG)
+nsg-shopeasy-dev-data;Microsoft.Network/networkSecurityGroups;swedencentral;"cost_center=cloud-training;environment=dev;managed_by=terraform;owner=formation;project=shopeasy";Pare-feu réseau (NSG)
+pip-shopeasy-dev-lb;Microsoft.Network/publicIPAddresses;swedencentral;"cost_center=cloud-training;environment=dev;managed_by=terraform;owner=formation;project=shopeasy";Adresse IP publique
+vnet-shopeasy-dev;Microsoft.Network/virtualNetworks;swedencentral;"cost_center=cloud-training;environment=dev;managed_by=terraform;owner=formation;project=shopeasy";Réseau privé (VNet)
+pip-shopeasy-dev-web-2;Microsoft.Network/publicIPAddresses;swedencentral;"cost_center=cloud-training;environment=dev;managed_by=terraform;owner=formation;project=shopeasy";Adresse IP publique
+shopeasydevdocsa0rnay;Microsoft.Storage/storageAccounts;swedencentral;"cost_center=cloud-training;environment=dev;managed_by=terraform;owner=formation;project=shopeasy";Compte de stockage (documents/rapports)
+lb-shopeasy-dev-web;Microsoft.Network/loadBalancers;swedencentral;"cost_center=cloud-training;environment=dev;managed_by=terraform;owner=formation;project=shopeasy";Répartiteur de charge HTTP
+nic-shopeasy-dev-web-2;Microsoft.Network/networkInterfaces;swedencentral;"cost_center=cloud-training;environment=dev;managed_by=terraform;owner=formation;project=shopeasy";Carte réseau d'une VM
+nic-shopeasy-dev-web-1;Microsoft.Network/networkInterfaces;swedencentral;"cost_center=cloud-training;environment=dev;managed_by=terraform;owner=formation;project=shopeasy";Carte réseau d'une VM
+vm-shopeasy-dev-web-1;Microsoft.Compute/virtualMachines;swedencentral;"Application=shopeasy;Role=web;cost_center=cloud-training;environment=dev;managed_by=terraform;owner=formation;project=shopeasy";Serveur web (VM Linux Nginx)
+vm-shopeasy-dev-web-2;Microsoft.Compute/virtualMachines;swedencentral;"Application=shopeasy;Role=web;cost_center=cloud-training;environment=dev;managed_by=terraform;owner=formation;project=shopeasy";Serveur web (VM Linux Nginx)
+vm-shopeasy-dev-web-1_OsDisk_1_966ad9888287402d8c178819c33517c4;Microsoft.Compute/disks;swedencentral;"cost_center=cloud-training;environment=dev;managed_by=terraform;owner=formation;project=shopeasy";Disque OS managé d'une VM
+vm-shopeasy-dev-web-2_OsDisk_1_d26a1dc79f9043d987aff3fe36174320;Microsoft.Compute/disks;swedencentral;"cost_center=cloud-training;environment=dev;managed_by=terraform;owner=formation;project=shopeasy";Disque OS managé d'une VM
+alert-cpu-high-vm-shopeasy-dev-web-1;Microsoft.Insights/metricalerts;global;;Autre / non classé
