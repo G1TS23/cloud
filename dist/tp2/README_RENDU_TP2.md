@@ -76,7 +76,7 @@ Arborescence complète et fichiers `.tf` :
 
 ### 3. Supports — [`docs/tp2/`](../../docs/tp2/)
 
-Sujet et cours magistral disponibles en PDF **et** transcription Markdown, plus la fiche de révision Terraform.
+Sujet et cours magistral (PDF + Markdown), fiche de révision Terraform. Parcours débutant complémentaire : [`docs/cours/`](../../docs/cours/).
 
 ---
 

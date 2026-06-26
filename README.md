@@ -13,6 +13,22 @@ Ce dépôt regroupe les travaux pratiques du module **Cloud Computing Azure**. C
 | **TP1** | Architecture cloud Azure (IaaS/PaaS, réseau, VM, LB, SQL, Storage, Monitor) | Terminé | [`docs/tp1/`](docs/tp1/) | [`tp1/`](tp1/) · [`dist/tp1/`](dist/tp1/) |
 | **TP2** | Infrastructure as Code avec Terraform sur Azure | Terminé | [`docs/tp2/`](docs/tp2/) | [`tp2/`](tp2/) · [`dist/tp2/`](dist/tp2/) |
 
+> **Documentation :** index complet dans [`docs/README.md`](docs/README.md) — supports officiels (`tp1/`, `tp2/`) et parcours débutant ([`docs/cours/`](docs/cours/)).
+
+---
+
+# Parcours pédagogique débutant
+
+Progression numérotée pour comprendre ShopEasy et Terraform — voir [`docs/cours/README.md`](docs/cours/README.md).
+
+| # | Cours |
+|---|---|
+| 01 | [Contexte ShopEasy — TP1 et TP2](docs/cours/01_contexte_shopeasy_tp1_et_tp2.md) |
+| 02 | [Terraform — comprendre sans le code](docs/cours/02_terraform_comprendre_sans_le_code.md) |
+| 03 | [`network.tf` ligne par ligne](docs/cours/03_network_tf_ligne_par_ligne.md) |
+| 04 | [Quiz de validation](docs/cours/04_quiz_validation.md) |
+| 05–08 | `security.tf`, `compute.tf`, `loadbalancer.tf`, `storage.tf` — *à venir* |
+
 ---
 
 # TP1 — Architecture Cloud Azure (ShopEasy)
@@ -65,6 +81,9 @@ Reprise du cas ShopEasy en **Infrastructure as Code** : workflow Terraform (`ini
 
 | Support | Fichier |
 |---|---|
+| Index documentation | [`docs/README.md`](docs/README.md) |
+| **Parcours pédagogique débutant** | [`docs/cours/README.md`](docs/cours/README.md) |
+| Supports officiels TP2 | [`docs/tp2/README.md`](docs/tp2/README.md) |
 | Consignes TP (PDF / Markdown) | [`docs/tp2/TP2_Terraform_Azure.pdf`](docs/tp2/TP2_Terraform_Azure.pdf) · [`docs/tp2/TP2_Terraform_Azure.md`](docs/tp2/TP2_Terraform_Azure.md) |
 | Cours magistral (PDF / Markdown) | [`docs/tp2/Cours_Magistral_TP2_Terraform_Azure.pdf`](docs/tp2/Cours_Magistral_TP2_Terraform_Azure.pdf) · [`docs/tp2/Cours_Magistral_TP2_Terraform_Azure.md`](docs/tp2/Cours_Magistral_TP2_Terraform_Azure.md) |
 | Fiche de révision | [`docs/tp2/Fiche_revision_Terraform.md`](docs/tp2/Fiche_revision_Terraform.md) |
@@ -125,10 +144,19 @@ cloud/
 ├── LICENSE
 ├── .gitignore
 ├── docs/
-│   ├── tp1/
+│   ├── README.md                # Index de toute la documentation
+│   ├── cours/                   # Parcours pédagogique débutant (numéroté)
+│   │   ├── README.md
+│   │   ├── 01_contexte_shopeasy_tp1_et_tp2.md
+│   │   ├── 02_terraform_comprendre_sans_le_code.md
+│   │   ├── 03_network_tf_ligne_par_ligne.md
+│   │   └── 04_quiz_validation.md
+│   ├── tp1/                     # Supports officiels TP1 (PDF)
+│   │   ├── README.md
 │   │   ├── Cours_Magistral_TP1_Azure.pdf
 │   │   └── TP1_Architecture_Cloud_Azure.pdf
-│   └── tp2/
+│   └── tp2/                     # Supports officiels TP2 (PDF + MD)
+│       ├── README.md
 │       ├── Cours_Magistral_TP2_Terraform_Azure.pdf / .md
 │       ├── TP2_Terraform_Azure.pdf / .md
 │       └── Fiche_revision_Terraform.pdf / .md
