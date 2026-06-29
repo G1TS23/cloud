@@ -15,7 +15,7 @@ Ce dépôt regroupe les travaux pratiques du module **Cloud Computing Azure**. C
 | **TP3** | Administration & automatisation Azure (CLI, Bash, Python, Monitor, FinOps) | Terminé | [`tp3/sujet/`](tp3/sujet/) | [`tp3/`](tp3/) · [`dist/tp3/`](dist/tp3/) |
 | **TP4** | Monitoring, FinOps & sécurité Azure (Log Analytics, alertes, budget, RBAC, Activity Log) | Terminé | [`tp4/sujet/`](tp4/sujet/) | [`tp4/`](tp4/) · [`dist/tp4/`](dist/tp4/) |
 
-> **Documentation :** index complet dans [`docs/README.md`](docs/README.md) — cours ([`docs/cours/`](docs/cours/)) et sujets officiels (`tpN/sujet/`).
+> **Documentation :** index complet dans [`docs/README.md`](docs/README.md) — cours ([`docs/cours/`](docs/cours/)), sujets officiels (`tpN/sujet/`), **fiches de révision** ([`docs/revision/`](docs/revision/)) et **examens blancs** ([`docs/examens/`](docs/examens/)).
 
 ---
 
@@ -88,7 +88,7 @@ Reprise du cas ShopEasy en **Infrastructure as Code** : workflow Terraform (`ini
 | Supports officiels TP2 | [`tp2/sujet/README.md`](tp2/sujet/README.md) |
 | Consignes TP (PDF / Markdown) | [`tp2/sujet/TP2_Terraform_Azure.pdf`](tp2/sujet/TP2_Terraform_Azure.pdf) · [`tp2/sujet/TP2_Terraform_Azure.md`](tp2/sujet/TP2_Terraform_Azure.md) |
 | Cours magistral (PDF / Markdown) | [`tp2/sujet/Cours_Magistral_TP2_Terraform_Azure.pdf`](tp2/sujet/Cours_Magistral_TP2_Terraform_Azure.pdf) · [`tp2/sujet/Cours_Magistral_TP2_Terraform_Azure.md`](tp2/sujet/Cours_Magistral_TP2_Terraform_Azure.md) |
-| Fiche de révision | [`tp2/sujet/Fiche_revision_Terraform.md`](docs/revision/tp2/Fiche_revision_Terraform.md) |
+| Fiche de révision | [`docs/revision/tp2/Fiche_revision_Terraform.md`](docs/revision/tp2/Fiche_revision_Terraform.md) |
 
 ### Projet Terraform
 
@@ -207,7 +207,7 @@ Passage de l'**administration** (TP3) au **pilotage** de ShopEasy : mise en plac
 |---|---|
 | Sujet (PDF / Markdown) | [`tp4/sujet/TP4_MonitoringFinOpsSecurite_Azure.pdf`](tp4/sujet/TP4_MonitoringFinOpsSecurite_Azure.pdf) · [`.md`](tp4/sujet/TP4_MonitoringFinOpsSecurite_Azure.md) |
 | Cours magistral (PDF / Markdown) | [`tp4/sujet/Cours_Magistral_TP4_Monitoring_FinOps_Securite_Azure.pdf`](tp4/sujet/Cours_Magistral_TP4_Monitoring_FinOps_Securite_Azure.pdf) · [`.md`](tp4/sujet/Cours_Magistral_TP4_Monitoring_FinOps_Securite_Azure.md) |
-| Fiche de révision | [`tp4/sujet/Fiche_revision_Monitoring_FinOps_Securite.md`](docs/revision/tp4/Fiche_revision_Monitoring_FinOps_Securite.md) |
+| Fiche de révision | [`docs/revision/tp4/Fiche_revision_Monitoring_FinOps_Securite.md`](docs/revision/tp4/Fiche_revision_Monitoring_FinOps_Securite.md) |
 
 ## Livrables
 
@@ -250,10 +250,18 @@ cloud/
 │   │   ├── 02_terraform_comprendre_sans_le_code.md
 │   │   ├── 03_network_tf_ligne_par_ligne.md
 │   │   └── 04_quiz_validation.md
-│   ├── revision/                # Glossaire, fiche de synthèse globale
-│   └── examens/                 # Examens blancs
+│   ├── revision/                # Fiches de révision (PDF + Markdown)
+│   │   ├── Fiche_synthese_globale_Cloud_Azure   # synthèse dédoublonnée des 4 TP
+│   │   ├── Glossaire_acronymes_Cloud_Azure      # ~70 sigles du module
+│   │   ├── tp1/Fiche_revision_Architecture_Cloud
+│   │   ├── tp2/Fiche_revision_Terraform
+│   │   ├── tp3/Fiche_revision_Administration_Azure
+│   │   └── tp4/Fiche_revision_Monitoring_FinOps_Securite
+│   └── examens/                 # Examens blancs (sujet + corrigé)
+│       ├── Examen_blanc_Cloud_Azure             # cas MediTrack
+│       └── Examen_blanc_2_Cloud_Azure           # cas EduStream
 ├── tp1/
-│   ├── sujet/                   # Sujet officiel, cours magistral, fiche révision
+│   ├── sujet/                   # Sujet officiel + cours magistral (PDF / Markdown)
 │   │   ├── README.md
 │   │   ├── Cours_Magistral_TP1_Azure.pdf
 │   │   └── TP1_Architecture_Cloud_Azure.pdf
@@ -270,11 +278,10 @@ cloud/
 │   └── screenshots/
 │       └── atelier_*.png
 ├── tp2/
-│   ├── sujet/                   # Sujet officiel, cours magistral, fiche révision
+│   ├── sujet/                   # Sujet officiel + cours magistral (PDF / Markdown)
 │   │   ├── README.md
 │   │   ├── Cours_Magistral_TP2_Terraform_Azure.pdf / .md
-│   │   ├── TP2_Terraform_Azure.pdf / .md
-│   │   └── Fiche_revision_Terraform.pdf / .md
+│   │   └── TP2_Terraform_Azure.pdf / .md
 │   ├── terraform/
 │   │   ├── versions.tf · providers.tf · variables.tf · locals.tf
 │   │   ├── network.tf · security.tf · compute.tf
@@ -291,7 +298,7 @@ cloud/
 │   └── screenshots/
 │       └── atelier_*.png   (20 preuves d'exécution)
 ├── tp3/
-│   ├── sujet/                   # Sujet officiel, cours magistral, fiche révision
+│   ├── sujet/                   # Sujet officiel + cours magistral (PDF / Markdown)
 │   ├── variables.sh             (variables d'exploitation)
 │   ├── scripts/
 │   │   ├── inventory.sh · vm-power.sh · healthcheck.sh
@@ -309,7 +316,7 @@ cloud/
 │   └── screenshots/
 │       └── atelier_*.png   (10 preuves d'exécution)
 ├── tp4/
-│   ├── sujet/                   # Sujet officiel, cours magistral, fiche révision (PDF/MD)
+│   ├── sujet/                   # Sujet officiel + cours magistral (PDF / Markdown)
 │   ├── livrables/
 │   │   ├── 01_compte_rendu_ateliers.md
 │   │   ├── 02_quiz_reponses.md
