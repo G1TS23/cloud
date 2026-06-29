@@ -1,0 +1,32 @@
+$ az role assignment list --scope /subscriptions/...   # droits heritees par le RG
+Type    Role
+------  ------
+User    Owner
+  -> 1 seul principal, role Owner sur toute la souscription (pas de moindre privilege)
+
+$ az network nsg rule list --nsg-name nsg-shopeasy-dev-web
+Name             Prio    Access    Port    Source
+---------------  ------  --------  ------  -----------------
+Allow-HTTP       100     Allow     80      Internet
+Allow-SSH-Admin  110     Allow     22      216.252.179.39/32
+
+$ az network nsg rule list --nsg-name nsg-shopeasy-dev-data
+Name                Prio    Access    Port    Source
+------------------  ------  --------  ------  ------------
+Deny-All-Inbound    4000    Deny      *       *
+Allow-SQL-From-Web  100     Allow     1433    10.20.1.0/24
+
+$ az storage account show   # exposition stockage
+PublicBlob    HttpsOnly    MinTls
+------------  -----------  --------
+False         True         TLS1_2
+
+$ az advisor recommendation list   # extrait (Securite + Haute dispo)
+Cat                    Impact    Problem
+---------------------  --------  -----------------------------------------------------------------------------------------
+HighAvailability       High      Ensure Azure Disks are in the same zone as your VM for higher resiliency and availability
+HighAvailability       High      Ensure Azure Disks are in the same zone as your VM for higher resiliency and availability
+HighAvailability       High      Enable zone redundancy for storage accounts to improve high availability and resiliency
+HighAvailability       High      Migrate workload to D-series or better virtual machine
+HighAvailability       High      Migrate workload to D-series or better virtual machine
+HighAvailability       Medium    Use NAT gateway for outbound connectivity

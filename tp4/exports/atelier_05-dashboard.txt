@@ -1,0 +1,27 @@
+Maquette du tableau de bord d'exploitation ShopEasy (Azure Dashboard)
+Source : Azure Monitor + Cost Management - Resource Group rg-shopeasy-dev
+
++----------------------------------+----------------------------------+
+|  Etat des VM (web-1 / web-2)     |  CPU moyen VM (5 min)            |
+|  Source : Azure Monitor          |  Source : Metrics               |
+|  [ web-1 : Running  ]            |  web-1 : 1.76 %  (max 8.3 %)     |
+|  [ web-2 : Running  ]            |  web-2 : ~2 %                    |
+|  -> detecter une indisponibilite |  -> identifier une surcharge     |
++----------------------------------+----------------------------------+
+|  Trafic reseau (In/Out)          |  Stockage consomme              |
+|  Source : Metrics VM/NIC         |  Source : Storage metrics       |
+|  -> detecter un pic anormal      |  shopeasydevdocsa0rnay (LRS)    |
++----------------------------------+----------------------------------+
+|  Couts du mois (EUR)             |  Alertes recentes               |
+|  Source : Cost Management        |  Source : Azure Monitor Alerts  |
+|  Total MTD : 1.19 EUR / 50 EUR   |  CPU>70% | VM KO | NSG change    |
+|  budget budget-shopeasy-dev 80%  |  -> prioriser les incidents      |
++----------------------------------+----------------------------------+
+|  Journaux / Activity Log         |  Etat base de donnees           |
+|  Source : Log Analytics LAW      |  (Azure SQL - hors perimetre    |
+|  law-shopeasy-dev (Activity Log) |   du deploiement actuel)        |
+|  -> audit qui a fait quoi        |  -> tuile prevue si SQL ajoute  |
++----------------------------------+----------------------------------+
+
+Chaque tuile repond a une question de pilotage (dispo, charge, cout,
+incident, audit) plutot qu'a une simple courbe technique.

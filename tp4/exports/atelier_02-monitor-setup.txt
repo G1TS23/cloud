@@ -1,0 +1,14 @@
+$ az monitor log-analytics workspace show -g $RG -n law-shopeasy-dev
+Name              Location       Sku        Retention    State
+----------------  -------------  ---------  -----------  ---------
+law-shopeasy-dev  swedencentral  PerGB2018  30           Succeeded
+
+$ az monitor diagnostic-settings subscription list   # Activity Log -> LAW
+Name
+-------------------------
+diag-activitylog-shopeasy
+
+$ az monitor diagnostic-settings list --resource <storage>/blobServices/default
+Name                   Logs    Metrics
+---------------------  ------  ---------
+diag-storage-shopeasy  3       2

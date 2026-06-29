@@ -1,0 +1,16 @@
+ag-shopeasy-ops	Microsoft.Insights/actiongroups	low
+law-shopeasy-dev	Microsoft.OperationalInsights/workspaces	low
+lb-shopeasy-dev-web	Microsoft.Network/loadBalancers	high
+nic-shopeasy-dev-web-1	Microsoft.Network/networkInterfaces	low
+nic-shopeasy-dev-web-2	Microsoft.Network/networkInterfaces	low
+nsg-shopeasy-dev-data	Microsoft.Network/networkSecurityGroups	medium
+nsg-shopeasy-dev-web	Microsoft.Network/networkSecurityGroups	medium
+pip-shopeasy-dev-lb	Microsoft.Network/publicIPAddresses	low
+pip-shopeasy-dev-web-1	Microsoft.Network/publicIPAddresses	low
+pip-shopeasy-dev-web-2	Microsoft.Network/publicIPAddresses	low
+shopeasydevdocsa0rnay	Microsoft.Storage/storageAccounts	high
+vm-shopeasy-dev-web-1	Microsoft.Compute/virtualMachines	high
+vm-shopeasy-dev-web-1_OsDisk_1_966ad9888287402d8c178819c33517c4	Microsoft.Compute/disks	high
+vm-shopeasy-dev-web-2	Microsoft.Compute/virtualMachines	high
+vm-shopeasy-dev-web-2_OsDisk_1_d26a1dc79f9043d987aff3fe36174320	Microsoft.Compute/disks	high
+vnet-shopeasy-dev	Microsoft.Network/virtualNetworks	medium

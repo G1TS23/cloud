@@ -1,0 +1,31 @@
+{
+  "timeframe": "MonthToDate",
+  "currency": "EUR",
+  "byService": [
+    {
+      "service": "Virtual Network",
+      "cost": 0.9186
+    },
+    {
+      "service": "Storage",
+      "cost": 0.2582
+    },
+    {
+      "service": "Virtual Machines",
+      "cost": 0.0159
+    },
+    {
+      "service": "Azure Monitor",
+      "cost": 0.0
+    },
+    {
+      "service": "Bandwidth",
+      "cost": 0.0
+    },
+    {
+      "service": "Load Balancer",
+      "cost": 0.0
+    }
+  ],
+  "total": 1.1928
+}

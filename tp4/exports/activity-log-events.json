@@ -1,0 +1,80 @@
+[
+  {
+    "operation": "Create and update budgets",
+    "resource": "budget-shopeasy-dev",
+    "status": "Succeeded",
+    "time": "2026-06-29T12:43:10.9594835Z"
+  },
+  {
+    "operation": "Update resource group",
+    "resource": "rg-shopeasy-dev",
+    "status": "Succeeded",
+    "time": "2026-06-29T12:42:04.4339184Z"
+  },
+  {
+    "operation": "Create or update action group",
+    "resource": "ag-shopeasy-ops",
+    "status": "Succeeded",
+    "time": "2026-06-29T12:41:58.1575727Z"
+  },
+  {
+    "operation": "Create Workspace",
+    "resource": "law-shopeasy-dev",
+    "status": "Succeeded",
+    "time": "2026-06-29T12:41:42.8027168Z"
+  },
+  {
+    "operation": "Create or Update Disk",
+    "resource": "vm-shopeasy-dev-web-2_OsDisk_1_d26a1dc79f9043d987aff3fe36174320",
+    "status": "Succeeded",
+    "time": "2026-06-29T12:41:19.9075397Z"
+  },
+  {
+    "operation": "Create or Update Virtual Machine",
+    "resource": "vm-shopeasy-dev-web-2",
+    "status": "Succeeded",
+    "time": "2026-06-29T12:41:06.8236826Z"
+  },
+  {
+    "operation": "'audit' Policy action.",
+    "resource": "vm-shopeasy-dev-web-2",
+    "status": "Succeeded",
+    "time": "2026-06-29T12:41:04.0445805Z"
+  },
+  {
+    "operation": "Create or Update Network Interface",
+    "resource": "nic-shopeasy-dev-web-1",
+    "status": "Succeeded",
+    "time": "2026-06-29T12:40:53.6184743Z"
+  },
+  {
+    "operation": "Create or Update Load Balancer",
+    "resource": "lb-shopeasy-dev-web",
+    "status": "Succeeded",
+    "time": "2026-06-29T12:40:40.7279901Z"
+  },
+  {
+    "operation": "Create/Update Storage Account",
+    "resource": "shopeasydevdocsa0rnay",
+    "status": "Succeeded",
+    "time": "2026-06-29T12:40:32.6634916Z"
+  },
+  {
+    "operation": "Create or Update Public Ip Address",
+    "resource": "pip-shopeasy-dev-web-2",
+    "status": "Succeeded",
+    "time": "2026-06-29T12:40:26.4478571Z"
+  },
+  {
+    "operation": "Create or Update Virtual Network",
+    "resource": "vnet-shopeasy-dev",
+    "status": "Succeeded",
+    "time": "2026-06-29T12:40:17.9784903Z"
+  },
+  {
+    "operation": "Create or Update Network Security Group",
+    "resource": "nsg-shopeasy-dev-data",
+    "status": "Succeeded",
+    "time": "2026-06-29T12:40:04.1350581Z"
+  }
+]

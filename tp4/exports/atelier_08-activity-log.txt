@@ -1,0 +1,20 @@
+$ az monitor activity-log list -g $RG --start-time <-2h>   # operations reussies
+Heure               Operation                               Ressource                   
+----------------------------------------------------------------------------------------
+2026-06-29T12:43:10 Create and update budgets               budget-shopeasy-dev         
+2026-06-29T12:42:04 Update resource group                   rg-shopeasy-dev             
+2026-06-29T12:41:58 Create or update action group           ag-shopeasy-ops             
+2026-06-29T12:41:42 Create Workspace                        law-shopeasy-dev            
+2026-06-29T12:41:19 Create or Update Disk                   vm-shopeasy-dev-web-2_OsDi  
+2026-06-29T12:41:06 Create or Update Virtual Machine        vm-shopeasy-dev-web-2       
+2026-06-29T12:40:53 Create or Update Network Interface      nic-shopeasy-dev-web-1      
+2026-06-29T12:40:40 Create or Update Load Balancer          lb-shopeasy-dev-web         
+2026-06-29T12:40:32 Create/Update Storage Account           shopeasydevdocsa0rnay       
+2026-06-29T12:40:26 Create or Update Public Ip Address      pip-shopeasy-dev-web-2      
+2026-06-29T12:40:17 Create or Update Virtual Network        vnet-shopeasy-dev           
+2026-06-29T12:40:04 Create or Update Network Security Grou  nsg-shopeasy-dev-data       
+
+Trois evenements significatifs analyses dans 04_fiche_audit_activity_log.md :
+  1. Create Workspace law-shopeasy-dev        -> mise en place de l'observabilite
+  2. Create/update budget budget-shopeasy-dev -> mise en place du garde-fou FinOps
+  3. Create action group ag-shopeasy-ops       -> canal de notification des alertes

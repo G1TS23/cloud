@@ -1,0 +1,16 @@
+$ az monitor action-group show -g $RG -n ag-shopeasy-ops
+Name             ShortName    Email
+---------------  -----------  ----------------------
+ag-shopeasy-ops  shopops      ops-shopeasy@efrei.net
+
+$ az monitor metrics alert list -g $RG -o table
+Name                                  Sev    Enabled
+------------------------------------  -----  ---------
+alert-cpu-70-shopeasy-web             2      True
+alert-cpu-high-vm-shopeasy-dev-web-1  3      True
+alert-vm-availability-shopeasy-web    1      True
+
+$ az monitor activity-log alert list -g $RG -o table
+Name                       Enabled
+-------------------------  ---------
+alert-nsg-change-shopeasy  True

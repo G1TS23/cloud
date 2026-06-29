@@ -1,0 +1,19 @@
+$ Cost Management - cout par service (MonthToDate, EUR)
+Service                   Cout EUR
+----------------------------------
+Virtual Network             0.9186
+Storage                     0.2582
+Virtual Machines            0.0159
+Bandwidth                   0.0000
+Azure Monitor               0.0000
+Load Balancer               0.0000
+----------------------------------
+TOTAL                       1.1928
+
+$ az consumption budget list - budget actif
+Name                 Montant    Grain
+-------------------  ---------  -------
+budget-shopeasy-dev  50.0       Monthly
+  Seuils d'alerte : 80% (cout reel) + 100% (cout previsionnel) -> ops-shopeasy@efrei.net
+
+$ Tags de gouvernance : 16/16 ressources taguees (Application, Environment, Owner, CostCenter, Criticality)

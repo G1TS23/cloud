@@ -10,11 +10,12 @@ Ce dépôt regroupe les travaux pratiques du module **Cloud Computing Azure**. C
 
 | TP | Sujet | Statut | Supports | Livrables |
 |---|---|---|---|---|
-| **TP1** | Architecture cloud Azure (IaaS/PaaS, réseau, VM, LB, SQL, Storage, Monitor) | Terminé | [`docs/tp1/`](docs/tp1/) | [`tp1/`](tp1/) · [`dist/tp1/`](dist/tp1/) |
-| **TP2** | Infrastructure as Code avec Terraform sur Azure | Terminé | [`docs/tp2/`](docs/tp2/) | [`tp2/`](tp2/) · [`dist/tp2/`](dist/tp2/) |
-| **TP3** | Administration & automatisation Azure (CLI, Bash, Python, Monitor, FinOps) | Terminé | [`docs/tp3/`](docs/tp3/) | [`tp3/`](tp3/) · [`dist/tp3/`](dist/tp3/) |
+| **TP1** | Architecture cloud Azure (IaaS/PaaS, réseau, VM, LB, SQL, Storage, Monitor) | Terminé | [`tp1/sujet/`](tp1/sujet/) | [`tp1/`](tp1/) · [`dist/tp1/`](dist/tp1/) |
+| **TP2** | Infrastructure as Code avec Terraform sur Azure | Terminé | [`tp2/sujet/`](tp2/sujet/) | [`tp2/`](tp2/) · [`dist/tp2/`](dist/tp2/) |
+| **TP3** | Administration & automatisation Azure (CLI, Bash, Python, Monitor, FinOps) | Terminé | [`tp3/sujet/`](tp3/sujet/) | [`tp3/`](tp3/) · [`dist/tp3/`](dist/tp3/) |
+| **TP4** | Monitoring, FinOps & sécurité Azure (Log Analytics, alertes, budget, RBAC, Activity Log) | Terminé | [`tp4/sujet/`](tp4/sujet/) | [`tp4/`](tp4/) · [`dist/tp4/`](dist/tp4/) |
 
-> **Documentation :** index complet dans [`docs/README.md`](docs/README.md) — supports officiels (`tp1/`, `tp2/`) et parcours débutant ([`docs/cours/`](docs/cours/)).
+> **Documentation :** index complet dans [`docs/README.md`](docs/README.md) — cours ([`docs/cours/`](docs/cours/)) et sujets officiels (`tpN/sujet/`).
 
 ---
 
@@ -84,10 +85,10 @@ Reprise du cas ShopEasy en **Infrastructure as Code** : workflow Terraform (`ini
 |---|---|
 | Index documentation | [`docs/README.md`](docs/README.md) |
 | **Parcours pédagogique débutant** | [`docs/cours/README.md`](docs/cours/README.md) |
-| Supports officiels TP2 | [`docs/tp2/README.md`](docs/tp2/README.md) |
-| Consignes TP (PDF / Markdown) | [`docs/tp2/TP2_Terraform_Azure.pdf`](docs/tp2/TP2_Terraform_Azure.pdf) · [`docs/tp2/TP2_Terraform_Azure.md`](docs/tp2/TP2_Terraform_Azure.md) |
-| Cours magistral (PDF / Markdown) | [`docs/tp2/Cours_Magistral_TP2_Terraform_Azure.pdf`](docs/tp2/Cours_Magistral_TP2_Terraform_Azure.pdf) · [`docs/tp2/Cours_Magistral_TP2_Terraform_Azure.md`](docs/tp2/Cours_Magistral_TP2_Terraform_Azure.md) |
-| Fiche de révision | [`docs/tp2/Fiche_revision_Terraform.md`](docs/tp2/Fiche_revision_Terraform.md) |
+| Supports officiels TP2 | [`tp2/sujet/README.md`](tp2/sujet/README.md) |
+| Consignes TP (PDF / Markdown) | [`tp2/sujet/TP2_Terraform_Azure.pdf`](tp2/sujet/TP2_Terraform_Azure.pdf) · [`tp2/sujet/TP2_Terraform_Azure.md`](tp2/sujet/TP2_Terraform_Azure.md) |
+| Cours magistral (PDF / Markdown) | [`tp2/sujet/Cours_Magistral_TP2_Terraform_Azure.pdf`](tp2/sujet/Cours_Magistral_TP2_Terraform_Azure.pdf) · [`tp2/sujet/Cours_Magistral_TP2_Terraform_Azure.md`](tp2/sujet/Cours_Magistral_TP2_Terraform_Azure.md) |
+| Fiche de révision | [`tp2/sujet/Fiche_revision_Terraform.md`](tp2/sujet/Fiche_revision_Terraform.md) |
 
 ### Projet Terraform
 
@@ -184,6 +185,56 @@ source tp3/variables.sh                                   # RG, LOCATION, VM1/2,
 
 ---
 
+# TP4 — Monitoring, FinOps & Sécurité Azure
+
+## Aperçu
+
+Passage de l'**administration** (TP3) au **pilotage** de ShopEasy : mise en place de l'observabilité (Log Analytics, diagnostic settings), d'alertes actionnables, d'une analyse FinOps (coûts, tags, budget), d'une revue de sécurité (RBAC, NSG, Advisor) et d'un audit Activity Log, débouchant sur une **note de recommandations DSI**. Toutes les commandes ont été exécutées sur l'infrastructure réelle (`rg-shopeasy-dev`, `swedencentral`).
+
+## Dispositif mis en place
+
+| Domaine | Réalisation Azure |
+|---|---|
+| Observabilité | Workspace `law-shopeasy-dev` (PerGB2018, 30 j) + diagnostics Activity Log & Storage |
+| Alertes | Action Group `ag-shopeasy-ops` + 3 alertes (CPU 70 %, disponibilité VM, modification NSG) |
+| FinOps | Budget `budget-shopeasy-dev` (50 €/mois, 80 %/100 %), tags sur 16/16 ressources |
+| Sécurité | Revue RBAC (Owner unique), NSG web/data, exposition stockage, recommandations Advisor |
+| Audit | Activity Log exporté vers le workspace, 3 événements interprétés |
+
+## Supports officiels
+
+| Support | Fichier |
+|---|---|
+| Sujet (PDF / Markdown) | [`tp4/sujet/TP4_MonitoringFinOpsSecurite_Azure.pdf`](tp4/sujet/TP4_MonitoringFinOpsSecurite_Azure.pdf) · [`.md`](tp4/sujet/TP4_MonitoringFinOpsSecurite_Azure.md) |
+| Cours magistral (PDF / Markdown) | [`tp4/sujet/Cours_Magistral_TP4_Monitoring_FinOps_Securite_Azure.pdf`](tp4/sujet/Cours_Magistral_TP4_Monitoring_FinOps_Securite_Azure.pdf) · [`.md`](tp4/sujet/Cours_Magistral_TP4_Monitoring_FinOps_Securite_Azure.md) |
+| Fiche de révision | [`tp4/sujet/Fiche_revision_Monitoring_FinOps_Securite.md`](tp4/sujet/Fiche_revision_Monitoring_FinOps_Securite.md) |
+
+## Livrables
+
+| Livrable | Fichier |
+|---|---|
+| Note de recommandations DSI | [`tp4/livrables/05_note_dsi.md`](tp4/livrables/05_note_dsi.md) |
+| Compte rendu des ateliers (1–9) | [`tp4/livrables/01_compte_rendu_ateliers.md`](tp4/livrables/01_compte_rendu_ateliers.md) |
+| Analyse FinOps & sécurité | [`tp4/livrables/03_analyse_finops_securite.md`](tp4/livrables/03_analyse_finops_securite.md) |
+| Fiche d'audit Activity Log | [`tp4/livrables/04_fiche_audit_activity_log.md`](tp4/livrables/04_fiche_audit_activity_log.md) |
+| Réponses au quiz (20 questions) | [`tp4/livrables/02_quiz_reponses.md`](tp4/livrables/02_quiz_reponses.md) |
+| Index des captures + valeurs réelles | [`tp4/livrables/06_captures_a_faire.md`](tp4/livrables/06_captures_a_faire.md) |
+| Preuves d'exécution (7 captures) | [`tp4/screenshots/`](tp4/screenshots/) |
+
+## Rendu final
+
+| Fichier | Contenu |
+|---|---|
+| [`dist/tp4/Rendu_TP4_ShopEasy_Monitoring_FinOps_Securite_Falahi_Claverie.zip`](dist/tp4/Rendu_TP4_ShopEasy_Monitoring_FinOps_Securite_Falahi_Claverie.zip) | PDF + README + variables + exports |
+| [`dist/tp4/TP4_ShopEasy_Monitoring_FinOps_Securite_Falahi_Claverie.pdf`](dist/tp4/TP4_ShopEasy_Monitoring_FinOps_Securite_Falahi_Claverie.pdf) | Document unique répondant à tout le TP4 (31 pages) |
+| [`dist/tp4/README_RENDU_TP4.md`](dist/tp4/README_RENDU_TP4.md) | Mode d'emploi du rendu |
+
+```bash
+.venv-pdf/bin/python scripts/build_rendu_tp4_pdf.py   # régénère PDF + ZIP
+```
+
+---
+
 # Structure du projet
 
 ```
@@ -199,16 +250,13 @@ cloud/
 │   │   ├── 02_terraform_comprendre_sans_le_code.md
 │   │   ├── 03_network_tf_ligne_par_ligne.md
 │   │   └── 04_quiz_validation.md
-│   ├── tp1/                     # Supports officiels TP1 (PDF)
+│   ├── revision/                # Glossaire, fiche de synthèse globale
+│   └── examens/                 # Examens blancs
+├── tp1/
+│   ├── sujet/                   # Sujet officiel, cours magistral, fiche révision
 │   │   ├── README.md
 │   │   ├── Cours_Magistral_TP1_Azure.pdf
 │   │   └── TP1_Architecture_Cloud_Azure.pdf
-│   └── tp2/                     # Supports officiels TP2 (PDF + MD)
-│       ├── README.md
-│       ├── Cours_Magistral_TP2_Terraform_Azure.pdf / .md
-│       ├── TP2_Terraform_Azure.pdf / .md
-│       └── Fiche_revision_Terraform.pdf / .md
-├── tp1/
 │   ├── livrables/
 │   │   ├── 01_livrables_ateliers.md
 │   │   ├── 02_note_DSI.md
@@ -222,6 +270,11 @@ cloud/
 │   └── screenshots/
 │       └── atelier_*.png
 ├── tp2/
+│   ├── sujet/                   # Sujet officiel, cours magistral, fiche révision
+│   │   ├── README.md
+│   │   ├── Cours_Magistral_TP2_Terraform_Azure.pdf / .md
+│   │   ├── TP2_Terraform_Azure.pdf / .md
+│   │   └── Fiche_revision_Terraform.pdf / .md
 │   ├── terraform/
 │   │   ├── versions.tf · providers.tf · variables.tf · locals.tf
 │   │   ├── network.tf · security.tf · compute.tf
@@ -238,6 +291,7 @@ cloud/
 │   └── screenshots/
 │       └── atelier_*.png   (20 preuves d'exécution)
 ├── tp3/
+│   ├── sujet/                   # Sujet officiel, cours magistral, fiche révision
 │   ├── variables.sh             (variables d'exploitation)
 │   ├── scripts/
 │   │   ├── inventory.sh · vm-power.sh · healthcheck.sh
@@ -254,12 +308,25 @@ cloud/
 │   │   └── 06_captures_a_faire.md
 │   └── screenshots/
 │       └── atelier_*.png   (10 preuves d'exécution)
+├── tp4/
+│   ├── sujet/                   # Sujet officiel, cours magistral, fiche révision (PDF/MD)
+│   ├── livrables/
+│   │   ├── 01_compte_rendu_ateliers.md
+│   │   ├── 02_quiz_reponses.md
+│   │   ├── 03_analyse_finops_securite.md
+│   │   ├── 04_fiche_audit_activity_log.md
+│   │   ├── 05_note_dsi.md
+│   │   └── 06_captures_a_faire.md
+│   ├── exports/                 (cost-summary.json, activity-log-events.json, resources-tags.tsv, sorties ateliers)
+│   └── screenshots/
+│       └── atelier_*.png   (7 preuves d'exécution)
 ├── scripts/
 │   ├── deploy_shopeasy.sh
 │   ├── azure-account.sh         (garde-fou multi-comptes Azure)
 │   ├── render_terminal_png.py   (captures terminal -> PNG)
 │   ├── build_rendu_tp2_pdf.py
-│   └── build_rendu_tp3_pdf.py
+│   ├── build_rendu_tp3_pdf.py
+│   └── build_rendu_tp4_pdf.py
 └── dist/
     ├── tp1/
     │   ├── TP1_ShopEasy_Livrables_complet.pdf
@@ -269,10 +336,14 @@ cloud/
     │   ├── TP2_ShopEasy_Terraform_Falahi_Claverie.pdf
     │   ├── Rendu_TP2_ShopEasy_Terraform_Falahi_Claverie.zip
     │   └── README_RENDU_TP2.md
-    └── tp3/
-        ├── TP3_ShopEasy_Administration_Falahi_Claverie.pdf
-        ├── Rendu_TP3_ShopEasy_Administration_Falahi_Claverie.zip
-        └── README_RENDU_TP3.md
+    ├── tp3/
+    │   ├── TP3_ShopEasy_Administration_Falahi_Claverie.pdf
+    │   ├── Rendu_TP3_ShopEasy_Administration_Falahi_Claverie.zip
+    │   └── README_RENDU_TP3.md
+    └── tp4/
+        ├── TP4_ShopEasy_Monitoring_FinOps_Securite_Falahi_Claverie.pdf
+        ├── Rendu_TP4_ShopEasy_Monitoring_FinOps_Securite_Falahi_Claverie.zip
+        └── README_RENDU_TP4.md
 ```
 
 ---

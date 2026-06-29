@@ -1,0 +1,21 @@
+$ az vm list -g $RG --show-details -o table
+Name                   Size              Power       PublicIP
+---------------------  ----------------  ----------  --------------
+vm-shopeasy-dev-web-1  Standard_B2ts_v2  VM running  135.225.37.122
+vm-shopeasy-dev-web-2  Standard_B2ts_v2  VM running  4.223.122.111
+
+$ az vm get-instance-view -g $RG -n $VM1 (statuts)
+Code                         Display
+---------------------------  ----------------------
+ProvisioningState/succeeded  Provisioning succeeded
+PowerState/running           VM running
+
+$ az monitor metrics list --resource $VM1 --metric 'Percentage CPU' (derniere heure)
+Time                  AvgCPU    MaxCPU
+--------------------  --------  --------
+2026-06-29T12:05:00Z
+2026-06-29T12:10:00Z
+2026-06-29T12:15:00Z
+2026-06-29T12:20:00Z
+2026-06-29T12:25:00Z
+2026-06-29T12:30:00Z  1.762     8.3

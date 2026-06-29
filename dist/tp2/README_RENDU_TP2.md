@@ -74,7 +74,7 @@ Arborescence complète et fichiers `.tf` :
 | 05 | [Note technique](../../tp2/livrables/05_note_technique.md) | Synthèse des choix, conventions, adaptations |
 | 06 | [Captures réalisées](../../tp2/livrables/06_captures_a_faire.md) | Index des 20 preuves d'exécution + valeurs réelles du déploiement |
 
-### 3. Supports — [`docs/tp2/`](../../docs/tp2/)
+### 3. Supports — [`tp2/sujet/`](../../tp2/sujet/)
 
 Sujet et cours magistral (PDF + Markdown), fiche de révision Terraform. Parcours débutant complémentaire : [`docs/cours/`](../../docs/cours/).
 

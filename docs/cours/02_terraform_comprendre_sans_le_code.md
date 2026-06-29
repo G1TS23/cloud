@@ -4,7 +4,7 @@
 > **Objectif :** comprendre Terraform (outils, workflow, state, variables) **avant** de lire les fichiers `.tf` ligne par ligne.  
 > **Suite :** [Cours 03 — `network.tf` ligne par ligne](03_network_tf_ligne_par_ligne.md)
 
-Guide pédagogique complétant la [Fiche de révision Terraform](../tp2/Fiche_revision_Terraform.md).
+Guide pédagogique complétant la [Fiche de révision Terraform](../../tp2/sujet/Fiche_revision_Terraform.md).
 
 **Cas fil rouge :** migration de l'application **ShopEasy** vers Microsoft Azure.  
 **Auteurs du dépôt :** Olivier Falahi & Paul Claverie — EFREI Bordeaux, 2025/2026.
@@ -413,9 +413,9 @@ Adaptation via les variables dans `terraform.tfvars` — c'est exactement le pri
 | Index documentation | [`docs/README.md`](../README.md) |
 | **`network.tf` ligne par ligne** | [Cours 03](03_network_tf_ligne_par_ligne.md) |
 | Quiz de validation | [Cours 04](04_quiz_validation.md) |
-| Fiche de révision (théorie condensée) | [`docs/tp2/Fiche_revision_Terraform.md`](../tp2/Fiche_revision_Terraform.md) |
-| Consignes du TP2 | [`docs/tp2/TP2_Terraform_Azure.md`](../tp2/TP2_Terraform_Azure.md) |
-| Cours magistral complet | [`docs/tp2/Cours_Magistral_TP2_Terraform_Azure.md`](../tp2/Cours_Magistral_TP2_Terraform_Azure.md) |
+| Fiche de révision (théorie condensée) | [`tp2/sujet/Fiche_revision_Terraform.md`](../../tp2/sujet/Fiche_revision_Terraform.md) |
+| Consignes du TP2 | [`tp2/sujet/TP2_Terraform_Azure.md`](../../tp2/sujet/TP2_Terraform_Azure.md) |
+| Cours magistral complet | [`tp2/sujet/Cours_Magistral_TP2_Terraform_Azure.md`](../../tp2/sujet/Cours_Magistral_TP2_Terraform_Azure.md) |
 | Architecture visuelle (TP1) | [`tp1/architecture/architecture.mmd`](../../tp1/architecture/architecture.mmd) |
 | Compte rendu des ateliers | [`tp2/livrables/01_compte_rendu_ateliers.md`](../../tp2/livrables/01_compte_rendu_ateliers.md) |
 | Option subnet privé (autonomie) | [`tp2/livrables/04_autonomie_subnet_prive.md`](../../tp2/livrables/04_autonomie_subnet_prive.md) |

@@ -1,6 +1,6 @@
 # Documentation — module Cloud Computing Azure
 
-> Index de tous les supports du dépôt ShopEasy (EFREI Bordeaux, 2025/2026).
+> Index des supports pédagogiques du dépôt ShopEasy (EFREI Bordeaux, 2025/2026).
 
 ---
 
@@ -10,19 +10,23 @@
 docs/
 ├── README.md          ← vous êtes ici
 ├── cours/             ← Parcours pédagogique débutant (auto-édité, numéroté)
-├── tp1/               ← Supports officiels TP1 (EFREI)
-└── tp2/               ← Supports officiels TP2 (EFREI)
+├── revision/          ← Fiches et glossaire transverses au module
+└── examens/           ← Examens blancs
+
+tp1/sujet/  …  tp4/sujet/   ← Sujets officiels, cours magistraux et fiches par TP
 ```
 
 | Dossier | Rôle | Public |
 |---|---|---|
 | [`cours/`](cours/) | Cours progressifs : contexte, Terraform, code `.tf` ligne par ligne, quiz | Débutant — pour **comprendre** le projet |
-| [`tp1/`](tp1/) | Sujet et cours magistral TP1 (PDF) | Référence officielle TP1 |
-| [`tp2/`](tp2/) | Sujet, cours magistral et fiche de révision TP2 (PDF + MD) | Référence officielle TP2 |
+| [`revision/`](revision/) | Glossaire des acronymes, fiche de synthèse globale | Révision transverse au module |
+| [`examens/`](examens/) | Examens blancs (MD + PDF) | Préparation à l'évaluation |
+| [`tp1/sujet/`](../tp1/sujet/) · [`tp2/sujet/`](../tp2/sujet/) · [`tp3/sujet/`](../tp3/sujet/) · [`tp4/sujet/`](../tp4/sujet/) | Sujets officiels EFREI, cours magistraux, fiches de révision | Référence par TP |
 
 **Règle simple :**
-- Besoin de **réviser l'examen / le cours magistral** → `tp1/` ou `tp2/`
+- Besoin du **sujet ou du cours magistral d'un TP** → `tpN/sujet/`
 - Besoin de **comprendre le projet depuis zéro** → `cours/` (dans l'ordre des numéros)
+- Besoin de **réviser l'examen global** → `revision/` et `examens/`
 
 ---
 
@@ -39,28 +43,34 @@ docs/
 
 ---
 
-## Supports officiels TP1 — [`tp1/`](tp1/)
+## Révision transverse — [`revision/`](revision/)
 
 | Fichier | Description |
 |---|---|
-| [TP1_Architecture_Cloud_Azure.pdf](tp1/TP1_Architecture_Cloud_Azure.pdf) | Sujet du TP1 |
-| [Cours_Magistral_TP1_Azure.pdf](tp1/Cours_Magistral_TP1_Azure.pdf) | Cours magistral TP1 |
-
-Livrables et code : [`tp1/`](../../tp1/) · [`scripts/deploy_shopeasy.sh`](../../scripts/deploy_shopeasy.sh)
+| [Glossaire_acronymes_Cloud_Azure.md](revision/Glossaire_acronymes_Cloud_Azure.md) · [PDF](revision/Glossaire_acronymes_Cloud_Azure.pdf) | Acronymes Azure et cloud |
+| [Fiche_synthese_globale_Cloud_Azure.md](revision/Fiche_synthese_globale_Cloud_Azure.md) · [PDF](revision/Fiche_synthese_globale_Cloud_Azure.pdf) | Synthèse du module |
 
 ---
 
-## Supports officiels TP2 — [`tp2/`](tp2/)
+## Examens blancs — [`examens/`](examens/)
 
 | Fichier | Description |
 |---|---|
-| [TP2_Terraform_Azure.md](tp2/TP2_Terraform_Azure.md) · [PDF](tp2/TP2_Terraform_Azure.pdf) | Sujet du TP2 |
-| [Cours_Magistral_TP2_Terraform_Azure.md](tp2/Cours_Magistral_TP2_Terraform_Azure.md) · [PDF](tp2/Cours_Magistral_TP2_Terraform_Azure.pdf) | Cours magistral TP2 |
-| [Fiche_revision_Terraform.md](tp2/Fiche_revision_Terraform.md) · [PDF](tp2/Fiche_revision_Terraform.pdf) | Fiche de révision (condensée) |
+| [Examen_blanc_Cloud_Azure.md](examens/Examen_blanc_Cloud_Azure.md) · [PDF](examens/Examen_blanc_Cloud_Azure.pdf) | Examen blanc n°1 |
+| [Examen_blanc_2_Cloud_Azure.md](examens/Examen_blanc_2_Cloud_Azure.md) · [PDF](examens/Examen_blanc_2_Cloud_Azure.pdf) | Examen blanc n°2 |
 
-Livrables et code : [`tp2/`](../../tp2/) · [`tp2/terraform/`](../../tp2/terraform/)
+---
 
-> Le parcours débutant ([`cours/`](cours/)) **complète** ces supports officiels ; il ne les remplace pas.
+## Supports officiels par TP
+
+| TP | Sujet & supports | Livrables & code |
+|---|---|---|
+| **TP1** — Architecture cloud | [`tp1/sujet/`](../tp1/sujet/) | [`tp1/`](../tp1/) · [`dist/tp1/`](../dist/tp1/) |
+| **TP2** — Terraform / IaC | [`tp2/sujet/`](../tp2/sujet/) | [`tp2/`](../tp2/) · [`dist/tp2/`](../dist/tp2/) |
+| **TP3** — Administration & automatisation | [`tp3/sujet/`](../tp3/sujet/) | [`tp3/`](../tp3/) · [`dist/tp3/`](../dist/tp3/) |
+| **TP4** — Monitoring, FinOps, sécurité | [`tp4/sujet/`](../tp4/sujet/) | [`tp4/`](../tp4/) · [`dist/tp4/`](../dist/tp4/) |
+
+> Le parcours débutant ([`cours/`](cours/)) **complète** les supports officiels ; il ne les remplace pas.
 
 ---
 
@@ -69,6 +79,5 @@ Livrables et code : [`tp2/`](../../tp2/) · [`tp2/terraform/`](../../tp2/terrafo
 | Contenu | Emplacement |
 |---|---|
 | README principal (déploiement, structure) | [`README.md`](../README.md) à la racine |
-| Livrables TP1 | [`tp1/livrables/`](../tp1/livrables/) |
-| Livrables TP2 | [`tp2/livrables/`](../tp2/livrables/) |
+| Script de déploiement TP1 | [`scripts/deploy_shopeasy.sh`](../scripts/deploy_shopeasy.sh) |
 | Archives PDF/ZIP de rendu | [`dist/`](../dist/) |

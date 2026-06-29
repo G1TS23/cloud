@@ -2,7 +2,7 @@
 
 > Support de révision du cours magistral *« Infrastructure as Code avec Terraform sur Azure »* — Bloc 4, Mastère Dev Manager Full Stack. Cas fil rouge : **ShopEasy**.
 >
-> Parcours débutant complémentaire : [`docs/cours/`](../cours/README.md)
+> Parcours débutant complémentaire : [`docs/cours/`](../../docs/cours/README.md)
 
 ---
 

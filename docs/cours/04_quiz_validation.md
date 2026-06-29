@@ -475,5 +475,5 @@ L'IaC décrit l'infrastructure ShopEasy dans des fichiers texte versionnés (Git
 - Index documentation : [`docs/README.md`](../README.md)
 - Index du parcours : [`docs/cours/README.md`](README.md)
 - Quiz officiel du TP (20 questions) : [`tp2/livrables/02_quiz_reponses.md`](../../tp2/livrables/02_quiz_reponses.md)
-- Fiche de révision condensée : [`docs/tp2/Fiche_revision_Terraform.md`](../tp2/Fiche_revision_Terraform.md)
+- Fiche de révision condensée : [`tp2/sujet/Fiche_revision_Terraform.md`](../../tp2/sujet/Fiche_revision_Terraform.md)
 - Relancer un déploiement réel : [`README.md`](../../README.md) section TP2

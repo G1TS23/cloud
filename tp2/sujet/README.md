@@ -4,7 +4,7 @@
 
 | Fichier | Format | Description |
 |---|---|---|
-| [TP2_Terraform_Azure.md](TP2_Terraform_Azure.md) | Markdown | Sujet du TP2 — ateliers, grille d'évaluation |
+| [TP2_Terraform_Azure.md](TP2_Terraform_Azure.md) | Markdown | **Sujet du TP2** — ateliers, grille d'évaluation |
 | [TP2_Terraform_Azure.pdf](TP2_Terraform_Azure.pdf) | PDF | Même contenu que le `.md` |
 | [Cours_Magistral_TP2_Terraform_Azure.md](Cours_Magistral_TP2_Terraform_Azure.md) | Markdown | Cours magistral — IaC, Terraform, bonnes pratiques |
 | [Cours_Magistral_TP2_Terraform_Azure.pdf](Cours_Magistral_TP2_Terraform_Azure.pdf) | PDF | Même contenu que le `.md` |
@@ -17,7 +17,7 @@
 
 Les supports ci-dessus sont la **référence officielle**. Pour apprendre progressivement (contexte, Terraform, lecture du code `.tf`), voir le parcours numéroté :
 
-**[`docs/cours/`](../cours/)** — index : [`docs/cours/README.md`](../cours/README.md)
+**[`docs/cours/`](../../docs/cours/)** — index : [`docs/cours/README.md`](../../docs/cours/README.md)
 
 ---
 
@@ -25,8 +25,8 @@ Les supports ci-dessus sont la **référence officielle**. Pour apprendre progre
 
 | Besoin | Emplacement |
 |---|---|
-| Index de toute la documentation | [`docs/README.md`](../README.md) |
-| Code Terraform | [`tp2/terraform/`](../../tp2/terraform/) |
-| Livrables rendus | [`tp2/livrables/`](../../tp2/livrables/) |
-| Archive de rendu | [`dist/tp2/`](../../dist/tp2/) |
-| Garde-fou compte Azure | [`scripts/azure-account.sh`](../../scripts/azure-account.sh) |
+| Index de toute la documentation | [`docs/README.md`](../../docs/README.md) |
+| Code Terraform | [`../terraform/`](../terraform/) |
+| Livrables rendus | [`../livrables/`](../livrables/) |
+| Archive de rendu | [`../../dist/tp2/`](../../dist/tp2/) |
+| Garde-fou compte Azure | [`../../scripts/azure-account.sh`](../../scripts/azure-account.sh) |

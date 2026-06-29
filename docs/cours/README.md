@@ -1,7 +1,7 @@
 # Parcours pédagogique — ShopEasy & Terraform
 
 > Cours progressifs **auto-édités** pour comprendre le module Cloud Computing Azure depuis zéro.  
-> Ils **complètent** les supports officiels dans [`docs/tp1/`](../tp1/) et [`docs/tp2/`](../tp2/) — voir [`docs/README.md`](../README.md).
+> Ils **complètent** les supports officiels dans [`tp1/sujet/`](../../tp1/sujet/) et [`tp2/sujet/`](../../tp2/sujet/) — voir [`docs/README.md`](../README.md).
 
 **Ordre recommandé :** suivre les numéros dans l'ordre.
 
@@ -23,8 +23,8 @@
 | Support | Emplacement |
 |---|---|
 | Index documentation | [`docs/README.md`](../README.md) |
-| Sujet + magistral TP1 | [`docs/tp1/README.md`](../tp1/README.md) |
-| Sujet + magistral + fiche révision TP2 | [`docs/tp2/README.md`](../tp2/README.md) |
+| Sujet + magistral TP1 | [`tp1/sujet/README.md`](../../tp1/sujet/README.md) |
+| Sujet + magistral + fiche révision TP2 | [`tp2/sujet/README.md`](../../tp2/sujet/README.md) |
 | Script bash TP1 | [`scripts/deploy_shopeasy.sh`](../../scripts/deploy_shopeasy.sh) |
 | Code Terraform TP2 | [`tp2/terraform/`](../../tp2/terraform/) |
 
