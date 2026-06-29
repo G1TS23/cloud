@@ -6,7 +6,7 @@
 |---|---|---|
 | [TP1_Architecture_Cloud_Azure.pdf](TP1_Architecture_Cloud_Azure.pdf) | PDF | **Sujet du TP1** — ateliers, livrables attendus |
 | [Cours_Magistral_TP1_Azure.pdf](Cours_Magistral_TP1_Azure.pdf) | PDF | Cours magistral — panorama Azure, IaaS/PaaS |
-| [Fiche_revision_Architecture_Cloud.md](Fiche_revision_Architecture_Cloud.md) · [PDF](Fiche_revision_Architecture_Cloud.pdf) | MD / PDF | Fiche de révision condensée |
+| [Fiche_revision_Architecture_Cloud.md](../../docs/revision/tp1/Fiche_revision_Architecture_Cloud.md) · [PDF](../../docs/revision/tp1/Fiche_revision_Architecture_Cloud.pdf) | MD / PDF | Fiche de révision condensée |
 
 ---
 

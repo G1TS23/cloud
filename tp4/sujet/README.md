@@ -8,7 +8,7 @@
 | [TP4_MonitoringFinOpsSecurite_Azure.pdf](TP4_MonitoringFinOpsSecurite_Azure.pdf) | PDF | Sujet original distribué |
 | [Cours_Magistral_TP4_Monitoring_FinOps_Securite_Azure.md](Cours_Magistral_TP4_Monitoring_FinOps_Securite_Azure.md) | Markdown | Cours magistral — supervision, coûts, sécurité (transcription du PDF) |
 | [Cours_Magistral_TP4_Monitoring_FinOps_Securite_Azure.pdf](Cours_Magistral_TP4_Monitoring_FinOps_Securite_Azure.pdf) | PDF | Cours magistral original |
-| [Fiche_revision_Monitoring_FinOps_Securite.md](Fiche_revision_Monitoring_FinOps_Securite.md) · [PDF](Fiche_revision_Monitoring_FinOps_Securite.pdf) | MD / PDF | Fiche de révision condensée |
+| [Fiche_revision_Monitoring_FinOps_Securite.md](../../docs/revision/tp4/Fiche_revision_Monitoring_FinOps_Securite.md) · [PDF](../../docs/revision/tp4/Fiche_revision_Monitoring_FinOps_Securite.pdf) | MD / PDF | Fiche de révision condensée |
 
 ---
 

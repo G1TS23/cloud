@@ -88,7 +88,7 @@ Reprise du cas ShopEasy en **Infrastructure as Code** : workflow Terraform (`ini
 | Supports officiels TP2 | [`tp2/sujet/README.md`](tp2/sujet/README.md) |
 | Consignes TP (PDF / Markdown) | [`tp2/sujet/TP2_Terraform_Azure.pdf`](tp2/sujet/TP2_Terraform_Azure.pdf) · [`tp2/sujet/TP2_Terraform_Azure.md`](tp2/sujet/TP2_Terraform_Azure.md) |
 | Cours magistral (PDF / Markdown) | [`tp2/sujet/Cours_Magistral_TP2_Terraform_Azure.pdf`](tp2/sujet/Cours_Magistral_TP2_Terraform_Azure.pdf) · [`tp2/sujet/Cours_Magistral_TP2_Terraform_Azure.md`](tp2/sujet/Cours_Magistral_TP2_Terraform_Azure.md) |
-| Fiche de révision | [`tp2/sujet/Fiche_revision_Terraform.md`](tp2/sujet/Fiche_revision_Terraform.md) |
+| Fiche de révision | [`tp2/sujet/Fiche_revision_Terraform.md`](docs/revision/tp2/Fiche_revision_Terraform.md) |
 
 ### Projet Terraform
 
@@ -207,7 +207,7 @@ Passage de l'**administration** (TP3) au **pilotage** de ShopEasy : mise en plac
 |---|---|
 | Sujet (PDF / Markdown) | [`tp4/sujet/TP4_MonitoringFinOpsSecurite_Azure.pdf`](tp4/sujet/TP4_MonitoringFinOpsSecurite_Azure.pdf) · [`.md`](tp4/sujet/TP4_MonitoringFinOpsSecurite_Azure.md) |
 | Cours magistral (PDF / Markdown) | [`tp4/sujet/Cours_Magistral_TP4_Monitoring_FinOps_Securite_Azure.pdf`](tp4/sujet/Cours_Magistral_TP4_Monitoring_FinOps_Securite_Azure.pdf) · [`.md`](tp4/sujet/Cours_Magistral_TP4_Monitoring_FinOps_Securite_Azure.md) |
-| Fiche de révision | [`tp4/sujet/Fiche_revision_Monitoring_FinOps_Securite.md`](tp4/sujet/Fiche_revision_Monitoring_FinOps_Securite.md) |
+| Fiche de révision | [`tp4/sujet/Fiche_revision_Monitoring_FinOps_Securite.md`](docs/revision/tp4/Fiche_revision_Monitoring_FinOps_Securite.md) |
 
 ## Livrables
 

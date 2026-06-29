@@ -8,8 +8,8 @@
 | [TP2_Terraform_Azure.pdf](TP2_Terraform_Azure.pdf) | PDF | Même contenu que le `.md` |
 | [Cours_Magistral_TP2_Terraform_Azure.md](Cours_Magistral_TP2_Terraform_Azure.md) | Markdown | Cours magistral — IaC, Terraform, bonnes pratiques |
 | [Cours_Magistral_TP2_Terraform_Azure.pdf](Cours_Magistral_TP2_Terraform_Azure.pdf) | PDF | Même contenu que le `.md` |
-| [Fiche_revision_Terraform.md](Fiche_revision_Terraform.md) | Markdown | Fiche de révision condensée |
-| [Fiche_revision_Terraform.pdf](Fiche_revision_Terraform.pdf) | PDF | Même contenu que le `.md` |
+| [Fiche_revision_Terraform.md](../../docs/revision/tp2/Fiche_revision_Terraform.md) | Markdown | Fiche de révision condensée |
+| [Fiche_revision_Terraform.pdf](../../docs/revision/tp2/Fiche_revision_Terraform.pdf) | PDF | Même contenu que le `.md` |
 
 ---
 

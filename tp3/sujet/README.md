@@ -6,7 +6,7 @@
 |---|---|---|
 | [TP3_Administration_Azure_CLI_Bash_Python.pdf](TP3_Administration_Azure_CLI_Bash_Python.pdf) | PDF | **Sujet du TP3** — ateliers, livrables attendus |
 | [Cours_Magistral_TP3_Administration_Azure.pdf](Cours_Magistral_TP3_Administration_Azure.pdf) | PDF | Cours magistral — CLI, Bash, Python, exploitation |
-| [Fiche_revision_Administration_Azure.md](Fiche_revision_Administration_Azure.md) · [PDF](Fiche_revision_Administration_Azure.pdf) | MD / PDF | Fiche de révision condensée |
+| [Fiche_revision_Administration_Azure.md](../../docs/revision/tp3/Fiche_revision_Administration_Azure.md) · [PDF](../../docs/revision/tp3/Fiche_revision_Administration_Azure.pdf) | MD / PDF | Fiche de révision condensée |
 
 ---
 

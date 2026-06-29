@@ -4,7 +4,7 @@
 > **Objectif :** comprendre Terraform (outils, workflow, state, variables) **avant** de lire les fichiers `.tf` ligne par ligne.  
 > **Suite :** [Cours 03 — `network.tf` ligne par ligne](03_network_tf_ligne_par_ligne.md)
 
-Guide pédagogique complétant la [Fiche de révision Terraform](../../tp2/sujet/Fiche_revision_Terraform.md).
+Guide pédagogique complétant la [Fiche de révision Terraform](../revision/tp2/Fiche_revision_Terraform.md).
 
 **Cas fil rouge :** migration de l'application **ShopEasy** vers Microsoft Azure.  
 **Auteurs du dépôt :** Olivier Falahi & Paul Claverie — EFREI Bordeaux, 2025/2026.
@@ -413,7 +413,7 @@ Adaptation via les variables dans `terraform.tfvars` — c'est exactement le pri
 | Index documentation | [`docs/README.md`](../README.md) |
 | **`network.tf` ligne par ligne** | [Cours 03](03_network_tf_ligne_par_ligne.md) |
 | Quiz de validation | [Cours 04](04_quiz_validation.md) |
-| Fiche de révision (théorie condensée) | [`tp2/sujet/Fiche_revision_Terraform.md`](../../tp2/sujet/Fiche_revision_Terraform.md) |
+| Fiche de révision (théorie condensée) | [`tp2/sujet/Fiche_revision_Terraform.md`](../revision/tp2/Fiche_revision_Terraform.md) |
 | Consignes du TP2 | [`tp2/sujet/TP2_Terraform_Azure.md`](../../tp2/sujet/TP2_Terraform_Azure.md) |
 | Cours magistral complet | [`tp2/sujet/Cours_Magistral_TP2_Terraform_Azure.md`](../../tp2/sujet/Cours_Magistral_TP2_Terraform_Azure.md) |
 | Architecture visuelle (TP1) | [`tp1/architecture/architecture.mmd`](../../tp1/architecture/architecture.mmd) |
