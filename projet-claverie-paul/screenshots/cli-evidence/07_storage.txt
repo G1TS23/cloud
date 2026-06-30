@@ -1,0 +1,5 @@
+### Storage Account (accès anonyme désactivé) ###
+AccesBlobPublic: false
+Nom: stnovaretailja69ku
+TLS: TLS1_2
+Versioning: voir blob properties

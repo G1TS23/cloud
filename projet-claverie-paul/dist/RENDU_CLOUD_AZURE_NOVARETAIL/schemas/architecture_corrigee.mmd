@@ -1,0 +1,48 @@
+flowchart TB
+    Internet(["Internet / Utilisateurs"])
+    Admin(["Administrateurs<br/>(IP autorisees)"])
+
+    subgraph subPROD["Souscription - separation par Resource Group"]
+        direction TB
+
+        subgraph rgprod["RG : rg-novaretail-prod (PROD)"]
+            direction TB
+            subgraph vnetp["VNet PROD 10.10.0.0/16"]
+                subgraph subwebp["Subnet web 10.10.1.0/24 + NSG-web"]
+                    LBp["Load Balancer public<br/>:80 / :443"]
+                    VMp1["VM web-01 (privee)"]
+                    VMp2["VM web-02 (privee)"]
+                end
+                subgraph subdatap["Subnet data 10.10.2.0/24 + NSG-data"]
+                    DBp["Azure DB for MySQL<br/>Flexible (prive)"]
+                end
+            end
+            Bastion["Azure Bastion"]
+            KVp["Key Vault PROD"]
+            STp["Storage prive<br/>versioning + soft delete"]
+        end
+
+        subgraph rgdev["RG : rg-novaretail-dev (DEV)"]
+            DevNote["Environnement DEV isole<br/>(meme modele, ressources reduites)"]
+        end
+
+        subgraph rgshared["RG : rg-novaretail-shared"]
+            LAW["Log Analytics + Azure Monitor"]
+            Budget["Budget + alertes cout"]
+            TFState["Storage backend<br/>Terraform state distant + lock"]
+        end
+    end
+
+    Internet -->|"HTTP/HTTPS"| LBp
+    Admin -->|"SSH via Bastion"| Bastion
+    Bastion --> VMp1
+    Bastion --> VMp2
+    LBp --> VMp1
+    LBp --> VMp2
+    VMp1 -->|"3306 interne only"| DBp
+    VMp2 -->|"3306 interne only"| DBp
+    VMp1 -->|"Blob prive"| STp
+    VMp1 -.->|"Managed Identity"| KVp
+    VMp1 -.-> LAW
+    DBp -.-> LAW
+    STp -.-> LAW

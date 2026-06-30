@@ -1,0 +1,14 @@
+### Test HTTP du point d'entrée ###
+URL : http://20.91.200.239
+Code HTTP : 200
+
+En-têtes :
+HTTP/1.1 200 OK
+Date: Tue, 30 Jun 2026 10:00:06 GMT
+Server: Apache/2.4.52 (Ubuntu)
+Last-Modified: Tue, 30 Jun 2026 09:58:49 GMT
+ETag: "58-655759f235834"
+Accept-Ranges: bytes
+Content-Length: 88
+Vary: Accept-Encoding
+Content-Type: text/html

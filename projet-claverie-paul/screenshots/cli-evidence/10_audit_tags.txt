@@ -1,0 +1,8 @@
+Audit des tags obligatoires sur le Resource Group : rg-novaretail-prod
+Tags requis : environment application owner cost-center criticality review-date
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+Ressources dans le groupe : 14
+Occurrences non conformes (tag x ressource) : 0
+Rapport CSV : audit_tags_rg-novaretail-prod_20260630-121200.csv
+RÉSULTAT : toutes les ressources sont conformes.

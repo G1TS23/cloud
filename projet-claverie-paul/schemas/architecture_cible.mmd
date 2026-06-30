@@ -1,0 +1,38 @@
+flowchart TB
+    Internet(["Internet / Utilisateurs commerciaux"])
+
+    subgraph rg["Resource Group : rg-novaretail-prod"]
+        direction TB
+
+        subgraph vnet["Virtual Network : vnet-novaretail (10.10.0.0/16)"]
+            direction TB
+
+            subgraph subnetweb["Subnet Web (10.10.1.0/24) + NSG-web"]
+                LB["Load Balancer public<br/>(IP publique, :80/:443)"]
+                VM1["VM Linux web-01<br/>Apache/PHP"]
+                VM2["VM Linux web-02<br/>Apache/PHP"]
+            end
+
+            subgraph subnetdata["Subnet Data (10.10.2.0/24) + NSG-data"]
+                MySQL["Azure Database for MySQL<br/>Flexible Server (manage, prive)"]
+            end
+        end
+
+        Storage["Storage Account<br/>Blob prive (fichiers clients)"]
+        Monitor["Azure Monitor<br/>+ Log Analytics Workspace"]
+        KV["Key Vault<br/>(secrets / mots de passe)"]
+    end
+
+    Internet -->|"HTTP/HTTPS entrant"| LB
+    LB -->|"repartition de charge"| VM1
+    LB -->|"repartition de charge"| VM2
+    VM1 -->|"MySQL 3306 interne uniquement"| MySQL
+    VM2 -->|"MySQL 3306 interne uniquement"| MySQL
+    VM1 -->|"lecture/ecriture privee"| Storage
+    VM2 -->|"lecture/ecriture privee"| Storage
+    VM1 -.->|"logs/metriques"| Monitor
+    VM2 -.->|"logs/metriques"| Monitor
+    MySQL -.->|"logs/metriques"| Monitor
+    Storage -.->|"logs/metriques"| Monitor
+    VM1 -.->|"secrets via Managed Identity"| KV
+    VM2 -.->|"secrets via Managed Identity"| KV

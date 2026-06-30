@@ -1,0 +1,5 @@
+### Machines virtuelles ###
+Nom        Taille           OS     IP_privee    Etat
+---------  ---------------  -----  -----------  ----------
+vm-web-01  Standard_D2s_v3  Linux  10.10.1.4    VM running
+vm-web-02  Standard_D2s_v3  Linux  10.10.1.5    VM running

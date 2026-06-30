@@ -1,0 +1,8 @@
+### Load Balancer + IP publique ###
+IP: 20.91.200.239
+Nom: pip-nr-novaretail-prod-lb
+SKU: Standard
+
+Regle      PortFront    PortBack    Protocole
+---------  -----------  ----------  -----------
+http-rule  80           80          Tcp

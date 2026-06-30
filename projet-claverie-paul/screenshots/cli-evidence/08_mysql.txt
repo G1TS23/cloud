@@ -1,0 +1,6 @@
+### Serveur MySQL Flexible managé ###
+Backup_jours: 7
+Etat: Ready
+Nom: mysql-nr-novaretail-prod
+SKU: Standard_B1ms
+Version: 8.0.21

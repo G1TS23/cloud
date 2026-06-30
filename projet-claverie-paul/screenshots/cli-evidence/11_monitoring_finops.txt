@@ -1,0 +1,18 @@
+### Alertes métriques configurées ###
+Nom                         Severite    Condition       Operateur    Seuil    Active
+--------------------------  ----------  --------------  -----------  -------  --------
+alert-cpu-web01             2           Percentage CPU  GreaterThan  80.0     True
+alert-storage-availability  1           Availability    LessThan     99.0     True
+
+### Groupe d'actions (destinataires) ###
+Emails:
+- paul.claverie@efrei.net
+Nom: ag-novaretail-ops
+
+### Budget Azure ###
+Montant: 50.0
+Nom: budget-novaretail-prod
+Periode: Monthly
+Seuils:
+- actual_GreaterThan_80_Percent
+- forecasted_GreaterThan_100_Percent

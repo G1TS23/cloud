@@ -1,0 +1,9 @@
+### VNet et subnets ###
+Adressage:
+- 10.10.0.0/16
+Nom: vnet-nr-novaretail-prod
+
+Subnet     CIDR          NSG
+---------  ------------  -----------------------------------------------------------------------------------------------------------------------------------------------
+snet-data  10.10.2.0/24
+snet-web   10.10.1.0/24  /subscriptions/cdca6d99-645a-4251-85e1-f078d1bd66ff/resourceGroups/rg-novaretail-prod/providers/Microsoft.Network/networkSecurityGroups/nsg-web
