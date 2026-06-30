@@ -1,0 +1,12 @@
+### Règles NSG web ###
+Nom                   Prio    Sens     Action    Port    Source
+--------------------  ------  -------  --------  ------  --------------
+Allow-HTTP-Inbound    100     Inbound  Allow     80      Internet
+Allow-HTTPS-Inbound   110     Inbound  Allow     443     Internet
+Allow-SSH-Admin-Only  120     Inbound  Allow     22      VirtualNetwork
+
+### Règles NSG data ###
+Nom                   Prio    Sens     Action    Port    Source
+--------------------  ------  -------  --------  ------  ------------
+Deny-All-Inbound      4096    Inbound  Deny      *       *
+Allow-MySQL-From-Web  100     Inbound  Allow     3306    10.10.1.0/24

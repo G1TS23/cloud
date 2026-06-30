@@ -1,0 +1,18 @@
+### terraform output ###
+load_balancer_public_ip = "20.91.200.239"
+log_analytics_workspace_name = "log-nr-novaretail-prod"
+mysql_server_name = "mysql-nr-novaretail-prod"
+resource_group_name = "rg-novaretail-prod"
+storage_account_name = "stnovaretailja69ku"
+vm_names = [
+  "vm-web-01",
+  "vm-web-02",
+]
+web_application_url = "http://20.91.200.239"
+
+### terraform plan (preuve d'idempotence / reproductibilité) ###
+azurerm_network_interface_backend_address_pool_association.web[0]: Refreshing state... [id=/subscriptions/cdca6d99-645a-4251-85e1-f078d1bd66ff/resourceGroups/rg-novaretail-prod/providers/Microsoft.Network/networkInterfaces/nic-web-01/ipConfigurations/ipconfig|/subscriptions/cdca6d99-645a-4251-85e1-f078d1bd66ff/resourceGroups/rg-novaretail-prod/providers/Microsoft.Network/loadBalancers/lb-nr-novaretail-prod/backendAddressPools/backend-pool]
+azurerm_storage_container.clients: Refreshing state... [id=https://stnovaretailja69ku.blob.core.windows.net/fichiers-clients]
+No changes. Your infrastructure matches the configuration.
+Terraform has compared your real infrastructure against your configuration
+and found no differences, so no changes are needed.

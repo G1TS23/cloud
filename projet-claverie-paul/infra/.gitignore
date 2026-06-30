@@ -1,0 +1,15 @@
+# Terraform — fichiers à ne JAMAIS versionner
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+# Secrets / variables locales (cf. correction anomalie 9, Partie 2)
+*.tfvars
+!example.tfvars
+
+# Clés SSH éventuellement exportées
+novaretail_id_rsa
+*.pem

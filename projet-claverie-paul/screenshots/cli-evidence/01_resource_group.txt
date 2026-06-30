@@ -1,0 +1,17 @@
+### Inventaire des ressources du Resource Group rg-novaretail-prod ###
+Nom                                                  Type                                      Region
+---------------------------------------------------  ----------------------------------------  -------------
+vnet-nr-novaretail-prod                              Microsoft.Network/virtualNetworks         swedencentral
+mysql-nr-novaretail-prod                             Microsoft.DBforMySQL/flexibleServers      swedencentral
+pip-nr-novaretail-prod-lb                            Microsoft.Network/publicIPAddresses       swedencentral
+stnovaretailja69ku                                   Microsoft.Storage/storageAccounts         swedencentral
+nsg-data                                             Microsoft.Network/networkSecurityGroups   swedencentral
+nsg-web                                              Microsoft.Network/networkSecurityGroups   swedencentral
+log-nr-novaretail-prod                               Microsoft.OperationalInsights/workspaces  swedencentral
+lb-nr-novaretail-prod                                Microsoft.Network/loadBalancers           swedencentral
+nic-web-01                                           Microsoft.Network/networkInterfaces       swedencentral
+nic-web-02                                           Microsoft.Network/networkInterfaces       swedencentral
+vm-web-02                                            Microsoft.Compute/virtualMachines         swedencentral
+vm-web-01                                            Microsoft.Compute/virtualMachines         swedencentral
+vm-web-02_OsDisk_1_12bba6285fd14ee1b7afdc7cd4a3c45f  Microsoft.Compute/disks                   swedencentral
+vm-web-01_OsDisk_1_9a2e2a51060b479c820c6ccd0b8ffc18  Microsoft.Compute/disks                   swedencentral
