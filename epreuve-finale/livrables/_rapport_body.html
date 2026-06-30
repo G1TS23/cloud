@@ -1,0 +1,792 @@
+<!DOCTYPE html><html lang='fr'><head><meta charset='utf-8'><style>
+@page { size: A4; margin: 18mm 16mm; }
+* { font-family: "Helvetica Neue", Arial, sans-serif; }
+body { font-size: 10.5pt; color: #222; line-height: 1.45; }
+h1 { font-size: 19pt; color: #0a4a8c; margin: 0 0 8pt 0; }
+h2 { font-size: 14pt; color: #0a4a8c; margin: 16pt 0 5pt 0; border-bottom: 1px solid #cfe0f0; padding-bottom: 3pt; }
+h3 { font-size: 11.5pt; color: #1565a0; margin: 11pt 0 4pt 0; }
+p { margin: 5pt 0; text-align: justify; }
+ul, ol { margin: 5pt 0 5pt 18pt; }
+li { margin: 2pt 0; }
+table { border-collapse: collapse; width: 100%; margin: 8pt 0; font-size: 9pt; }
+th { background: #0a4a8c; color: #fff; text-align: left; padding: 5pt 6pt; border: 1px solid #0a4a8c; }
+td { padding: 5pt 6pt; border: 1px solid #cfd8e3; vertical-align: top; }
+tr:nth-child(even) td { background: #f4f8fc; }
+thead { display: table-header-group; }
+tr { page-break-inside: avoid; }
+img { max-width: 100%; }
+h1, h2, h3 { page-break-after: avoid; }
+</style></head><body><h1>Partie 1. Analyse de l'existant et architecture cible</h1>
+<h2>Question 1. Analyse de l'existant</h2>
+<p>L'application de gestion de commandes de NovaRetail repose aujourd'hui sur un serveur Linux unique qui héberge en même temps le serveur web Apache et PHP, la base de données MySQL et les fichiers clients. Les sauvegardes sont manuelles et hebdomadaires, aucune supervision n'est en place, et un compte administrateur est partagé entre plusieurs personnes. Cette concentration crée des risques dans chaque grand domaine d'exploitation.</p>
+<table>
+<thead>
+<tr>
+<th>Domaine</th>
+<th>Risque identifié</th>
+<th>Impact possible sur le SI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Disponibilité</td>
+<td>Le serveur est unique et sans redondance, ce qui constitue un point de défaillance unique.</td>
+<td>La moindre panne matérielle ou logicielle interrompt totalement la prise de commandes et l'activité commerciale.</td>
+</tr>
+<tr>
+<td>Sécurité</td>
+<td>Le compte administrateur est partagé et les couches ne sont pas cloisonnées, tandis que la base et les fichiers sont exposés sur la même machine.</td>
+<td>La traçabilité des actions disparaît, une seule compromission donne un accès complet, et les données clients peuvent fuir.</td>
+</tr>
+<tr>
+<td>Performance</td>
+<td>Le web, la base MySQL et le stockage partagent les mêmes ressources sur une seule machine.</td>
+<td>Les montées en charge provoquent de la contention et des lenteurs, sans possibilité d'absorber un pic de commandes.</td>
+</tr>
+<tr>
+<td>Exploitation</td>
+<td>Aucun tableau de bord ni aucune alerte ne permet de suivre l'état du système.</td>
+<td>Les incidents sont détectés tardivement, souvent par les utilisateurs, et le diagnostic est long.</td>
+</tr>
+<tr>
+<td>Coûts</td>
+<td>Aucune estimation des coûts d'exploitation n'existe et le dimensionnement reste figé.</td>
+<td>Les dépenses ne sont ni mesurées ni optimisées, et tout surdimensionnement passe inaperçu.</td>
+</tr>
+<tr>
+<td>Sauvegarde</td>
+<td>La sauvegarde est manuelle, hebdomadaire et conservée sur le même périmètre que la production.</td>
+<td>La perte de données peut atteindre une semaine entière, sans garantie de restauration ni test de reprise.</td>
+</tr>
+</tbody>
+</table>
+<p>Les besoins techniques prioritaires qui découlent de cette analyse sont la haute disponibilité de la couche web, l'externalisation de la base et des fichiers vers des services dédiés, la segmentation et le filtrage du réseau, la mise en place d'une supervision avec des alertes, l'usage de comptes nominatifs avec des droits limités, et une sauvegarde automatisée et testée.</p>
+<h2>Question 2. Choix des services Azure</h2>
+<p>Le tableau associe chaque besoin de NovaRetail à un service Azure, en justifiant le choix selon les critères de coût, de sécurité, de disponibilité et d'exploitabilité.</p>
+<table>
+<thead>
+<tr>
+<th>Besoin</th>
+<th>Service Azure proposé</th>
+<th>Justification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hébergement applicatif</td>
+<td>Azure Virtual Machines, deux machines Linux placées derrière un répartiteur de charge</td>
+<td>Cette approche en infrastructure as a service permet une migration proche de l'existant Apache et PHP, tout en supprimant le point de défaillance unique grâce à la redondance des instances.</td>
+</tr>
+<tr>
+<td>Réseau isolé</td>
+<td>Azure Virtual Network avec des subnets séparés</td>
+<td>Le réseau virtuel isole logiquement l'application et permet de séparer la couche web de la couche données afin de limiter les déplacements latéraux en cas d'incident.</td>
+</tr>
+<tr>
+<td>Filtrage réseau</td>
+<td>Network Security Groups appliqués aux subnets</td>
+<td>Les groupes de sécurité réseau restreignent les flux aux seuls ports nécessaires et limitent l'exposition de chaque couche.</td>
+</tr>
+<tr>
+<td>Stockage de documents</td>
+<td>Azure Storage Account avec des conteneurs Blob privés</td>
+<td>Le stockage objet externalise les fichiers clients hors des machines, assure leur durabilité par réplication et autorise le versioning et les politiques de cycle de vie.</td>
+</tr>
+<tr>
+<td>Base de données managée</td>
+<td>Azure Database for MySQL Flexible Server</td>
+<td>Le choix d'un service managé plutôt qu'une base installée sur machine virtuelle délègue à Azure les sauvegardes automatiques, les correctifs, la supervision et les options de haute disponibilité, ce qui réduit la charge d'exploitation et le risque humain. Le choix du moteur MySQL plutôt qu'Azure SQL conserve la compatibilité avec la base MySQL déjà utilisée par NovaRetail, ce qui évite une migration de moteur et une réécriture applicative.</td>
+</tr>
+<tr>
+<td>Supervision</td>
+<td>Azure Monitor relié à un Log Analytics Workspace</td>
+<td>La supervision centralise les métriques et les journaux, permet d'analyser la performance et de déclencher des alertes actionnables.</td>
+</tr>
+<tr>
+<td>Gestion des coûts</td>
+<td>Microsoft Cost Management avec des budgets et des alertes</td>
+<td>Cet outil rend les dépenses visibles, les rattache à des tags et prévient en cas de dépassement budgétaire.</td>
+</tr>
+<tr>
+<td>Gestion des droits</td>
+<td>Microsoft Entra ID associé au contrôle d'accès basé sur les rôles</td>
+<td>Les comptes deviennent nominatifs et chaque personne ne reçoit que les droits strictement nécessaires, selon le principe du moindre privilège.</td>
+</tr>
+<tr>
+<td>Journalisation et audit</td>
+<td>Journal d'activité et paramètres de diagnostic exportés vers Log Analytics</td>
+<td>La traçabilité des opérations de gestion est conservée et interrogeable, ce qui permet de répondre aux questions d'audit.</td>
+</tr>
+</tbody>
+</table>
+<p>Chaque service se classe dans une catégorie de responsabilité. Les machines virtuelles, le réseau virtuel et les groupes de sécurité réseau relèvent de l'infrastructure as a service, où l'équipe garde la responsabilité du système et de l'application. La base MySQL managée, le compte de stockage et la supervision relèvent de la plateforme as a service, où Azure prend en charge une partie de l'exploitation. La gestion des identités et le suivi des coûts relèvent de la gouvernance, qui encadre les droits et les dépenses de façon transverse.</p>
+<h2>Question 3. Architecture cible</h2>
+<p>L'architecture cible regroupe toutes les ressources dans un même Resource Group nommé <code>rg-novaretail-prod</code>, déployé dans la région Sweden Central. Un Virtual Network nommé <code>vnet-novaretail-prod</code> couvre la plage 10.20.0.0/16 et se découpe en deux subnets. Le subnet web <code>snet-web</code> en 10.20.1.0/24 accueille les deux machines applicatives, et le subnet données <code>snet-data</code> en 10.20.2.0/24 accueille les services de données et les connexions privées.</p>
+<p>La couche web comprend deux machines virtuelles Linux nommées <code>vm-web-01</code> et <code>vm-web-02</code>, de taille Standard_B2ts_v2, qui exécutent Apache et PHP. Ces machines sont placées derrière un répartiteur de charge Azure Load Balancer qui répartit le trafic et s'appuie sur une sonde de santé. Le groupe de sécurité réseau <code>nsg-web</code> autorise les ports 80 et 443 depuis Internet et le port 22 uniquement depuis l'adresse de l'administrateur. Le groupe de sécurité réseau <code>nsg-data</code> autorise le port 3306 uniquement depuis le subnet web et refuse tout accès depuis Internet.</p>
+<p>La base de données est un service Azure Database for MySQL Flexible Server, rattaché au subnet données et non exposé publiquement. Les fichiers clients sont déplacés vers un Storage Account privé avec versioning. Azure Monitor et un Log Analytics Workspace collectent les métriques et les journaux de l'ensemble des ressources. Microsoft Entra ID et le contrôle d'accès basé sur les rôles encadrent l'administration, et des tags cohérents sont appliqués pour la gouvernance et le suivi des coûts.</p>
+<p>Les flux principaux sont les suivants. Le trafic des utilisateurs arrive depuis Internet vers le répartiteur de charge, qui le distribue vers les deux machines web sur le port 80 ou 443. Les machines web accèdent à la base MySQL sur le port 3306 depuis le subnet web uniquement. Les machines web accèdent au Storage Account en HTTPS pour lire et écrire les documents. L'administration passe par le port 22 restreint à l'adresse de l'administrateur, avec Azure Bastion comme évolution recommandée. Toutes les ressources envoient leurs métriques et leurs journaux vers le Log Analytics Workspace.</p>
+<p>Le schéma correspondant est fourni dans le dossier <code>schema</code>, au format draw.io modifiable et au format image exporté.</p>
+<h3>Justification courte des principaux choix</h3>
+<p>La redondance de la couche web derrière un répartiteur de charge répond au besoin de disponibilité en supprimant le point de défaillance unique. Le choix d'une base managée plutôt qu'une base installée sur machine virtuelle décharge l'équipe des sauvegardes et des correctifs, ce qui réduit le risque d'exploitation. L'externalisation des fichiers vers un stockage objet privé améliore la durabilité et la confidentialité des données clients. La segmentation du réseau en deux subnets associés à des groupes de sécurité restreints applique une défense en profondeur. La supervision et la gouvernance des identités complètent l'ensemble pour rendre l'environnement exploitable et auditable.</p>
+<p>Pour une cible de production plus exigeante, une Application Gateway avec un pare-feu applicatif web pourrait remplacer le simple répartiteur de charge, et un Private Endpoint pourrait isoler complètement la base et le stockage du réseau public.</p>
+<h2>Schéma d'architecture cible</h2>
+<p><img alt="Schéma d'architecture cible NovaRetail" src="../schema/architecture_cible.png" /></p>
+<h1>Partie 2. Diagnostic d'une architecture défectueuse</h1>
+<p>Cette partie audite l'architecture proposée par un prestataire externe pour NovaRetail avant toute mise en production. L'objectif est de repérer les anomalies, de prioriser les risques et de proposer des corrections réalistes.</p>
+<h2>Question 4. Identification des anomalies</h2>
+<p>Le tableau ci-dessous relève quatorze anomalies, chacune rattachée à un domaine et associée à son risque principal.</p>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>Anomalie identifiée</th>
+<th>Domaine</th>
+<th>Risque principal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Le port MySQL 3306 est accessible depuis Internet.</td>
+<td>Sécurité</td>
+<td>La base de données clients est exposée à des accès non autorisés, des injections et des exfiltrations.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Le port SSH est ouvert depuis 0.0.0.0/0.</td>
+<td>Sécurité</td>
+<td>Les machines subissent des attaques par force brute et peuvent être compromises.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Les mots de passe administrateurs sont stockés dans un fichier terraform.tfvars versionné dans Git.</td>
+<td>Sécurité et IaC</td>
+<td>Les identifiants fuient dès que le dépôt est partagé ou cloné.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Le state Terraform est local sur le poste d'un administrateur.</td>
+<td>IaC</td>
+<td>Le state peut être perdu, il n'offre aucun verrouillage et il peut contenir des données sensibles.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Le Storage Account autorise l'accès public aux blobs.</td>
+<td>Sécurité</td>
+<td>Les documents clients deviennent accessibles publiquement sur Internet.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Le versioning et la suppression réversible ne sont pas activés sur le Storage Account.</td>
+<td>Exploitation</td>
+<td>Une suppression ou un écrasement de fichier est irréversible.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Aucune sauvegarde n'est configurée.</td>
+<td>Disponibilité</td>
+<td>Une panne ou une erreur entraîne une perte définitive de données sans reprise possible.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Les deux machines web ne sont pas placées derrière un répartiteur de charge.</td>
+<td>Disponibilité</td>
+<td>La panne d'une machine interrompt le service et la charge n'est pas répartie.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>La base MySQL est installée sur une machine dans le même subnet que les serveurs web.</td>
+<td>Sécurité et disponibilité</td>
+<td>L'absence de cloisonnement facilite les déplacements latéraux et la base partage les ressources du web.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Le réseau se limite à un seul Virtual Network 10.0.0.0/24 avec un seul subnet.</td>
+<td>Réseau et sécurité</td>
+<td>L'absence de segmentation empêche tout filtrage par couche et augmente la surface d'exposition.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Un seul Resource Group contient les ressources de développement et de production.</td>
+<td>Gouvernance</td>
+<td>Une manipulation sur le développement peut affecter la production.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Aucune séparation claire n'existe entre l'environnement de test et l'environnement de production.</td>
+<td>Gouvernance</td>
+<td>Un changement de test peut impacter directement la production.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Plusieurs utilisateurs humains disposent du rôle Owner sur la souscription.</td>
+<td>Sécurité et gouvernance</td>
+<td>Les droits sont excessifs et un seul compte compromis donne le contrôle total.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Aucun Log Analytics Workspace, aucune alerte, aucune stratégie de tags et aucun budget ne sont en place.</td>
+<td>Exploitation et FinOps</td>
+<td>Les incidents ne sont pas détectés et les coûts ne sont ni attribuables ni maîtrisés.</td>
+</tr>
+</tbody>
+</table>
+<h2>Question 5. Priorisation des risques</h2>
+<p>Parmi les anomalies relevées, les cinq risques les plus critiques sont les suivants.</p>
+<table>
+<thead>
+<tr>
+<th>Risque critique</th>
+<th>Niveau</th>
+<th>Justification</th>
+<th>Correction prioritaire</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Base MySQL exposée sur Internet par le port 3306</td>
+<td>Critique</td>
+<td>La base contient les données clients et commandes, son exposition directe est la porte d'entrée la plus dangereuse.</td>
+<td>Fermer tout accès depuis Internet, placer la base dans un subnet privé ou un service managé non exposé, et n'autoriser que le subnet web.</td>
+</tr>
+<tr>
+<td>Accès SSH ouvert depuis 0.0.0.0/0</td>
+<td>Critique</td>
+<td>Un port d'administration ouvert au monde entier est en permanence attaqué et permet une prise de contrôle des machines.</td>
+<td>Restreindre l'accès à l'adresse de l'administrateur, puis évoluer vers Azure Bastion.</td>
+</tr>
+<tr>
+<td>Secrets versionnés dans Git</td>
+<td>Critique</td>
+<td>Un mot de passe administrateur présent dans le dépôt est une fuite d'identifiants difficile à rattraper.</td>
+<td>Retirer le secret du dépôt, l'ajouter au fichier d'exclusion, le stocker dans Azure Key Vault et procéder à une rotation.</td>
+</tr>
+<tr>
+<td>Accès public au Storage Account</td>
+<td>Élevé</td>
+<td>Les documents clients sont des données sensibles qui ne doivent jamais être publiques.</td>
+<td>Désactiver l'accès public aux blobs, rendre les conteneurs privés et activer la suppression réversible.</td>
+</tr>
+<tr>
+<td>Rôle Owner attribué à plusieurs personnes</td>
+<td>Élevé</td>
+<td>Des droits trop larges augmentent la surface d'attaque et le risque d'erreur ou d'abus.</td>
+<td>Appliquer le principe du moindre privilège, réserver le rôle Owner et utiliser des rôles plus restreints.</td>
+</tr>
+</tbody>
+</table>
+<h2>Question 6. Proposition d'architecture corrigée</h2>
+<p>L'architecture corrigée correspond à l'architecture cible décrite dans la partie 1 et réellement déployée dans la partie 3. Le schéma se trouve dans le dossier <code>schema</code>. Les corrections apportées répondent point par point aux anomalies relevées.</p>
+<p>La séparation des environnements est assurée en isolant le développement et la production dans des groupes de ressources distincts, et en paramétrant le code Terraform par une variable d'environnement, ce qui permet de déployer chaque environnement à partir du même code sans les mélanger. La segmentation du réseau remplace le subnet unique par un Virtual Network plus large découpé en un subnet web et un subnet de données. Le filtrage réseau est confié à des groupes de sécurité qui n'ouvrent que les ports utiles, à savoir les ports 80 et 443 depuis Internet et le port 22 depuis la seule adresse de l'administrateur.</p>
+<p>Les expositions inutiles à Internet sont supprimées. La base n'est plus accessible que depuis le subnet web sur le port 3306, et l'évolution recommandée consiste à retirer les adresses publiques des machines au profit d'un accès privé. La base MySQL installée sur une machine est remplacée par le service managé Azure Database for MySQL, ce qui apporte les sauvegardes automatiques et les correctifs. Les secrets sont gérés de façon sécurisée, hors du dépôt, avec un stockage dans Azure Key Vault comme cible. Le state Terraform est externalisé dans un backend distant protégé, sur un compte de stockage dédié avec verrouillage et contrôle d'accès.</p>
+<p>La supervision, les alertes, les sauvegardes et les tags sont mis en place avec un espace Log Analytics, des alertes de processeur et de disponibilité, les sauvegardes automatiques de la base managée et une stratégie de tags appliquée par le code. La maîtrise des coûts est assurée par un budget mensuel et des notifications de dépassement.</p>
+<h2>Question 7. Plan de vérification</h2>
+<p>Le plan de vérification ci-dessous permet de confirmer que les corrections sont bien appliquées, avec au moins un contrôle par domaine.</p>
+<p>La vérification réseau consiste à lister les règles des groupes de sécurité et à confirmer que le port 3306 n'est ouvert que depuis le subnet web et que le port 22 est restreint à l'adresse de l'administrateur. Un test complémentaire vérifie qu'une tentative de connexion à la base depuis Internet échoue.</p>
+<p>La vérification de sécurité et de RBAC consiste à lister les attributions de rôles sur la souscription et à confirmer qu'un seul compte dispose du rôle Owner. Elle inclut un contrôle qui s'assure qu'aucun secret n'est présent dans le dépôt Git.</p>
+<p>La vérification Terraform consiste à exécuter un plan qui ne doit annoncer aucune dérive, et à confirmer que le state est stocké dans un backend distant et que le fichier de variables sensibles est exclu du dépôt.</p>
+<p>La vérification du monitoring consiste à confirmer la présence de l'espace Log Analytics et des règles d'alerte, et à vérifier que les alertes sont actives et reliées à un groupe d'action.</p>
+<p>La vérification FinOps consiste à confirmer la présence du budget et de ses seuils, et à exécuter le script d'inventaire pour s'assurer que toutes les ressources portent les tags obligatoires.</p>
+<h1>Partie 3. Déploiement et Infrastructure as Code</h1>
+<p>Le code complet se trouve dans le dossier <code>terraform</code>. Il décrit l'architecture cible de la partie 1 et il a été déployé réellement sur l'abonnement de formation.</p>
+<h2>Question 8. Organisation du projet Terraform</h2>
+<p>Le projet est découpé en fichiers thématiques plutôt qu'en un seul fichier, afin qu'une personne qui ne l'a pas écrit puisse le comprendre rapidement. Le rôle de chaque fichier est le suivant.</p>
+<table>
+<thead>
+<tr>
+<th>Fichier</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>versions.tf</code></td>
+<td>Déclare la version minimale de Terraform et les fournisseurs azurerm et random.</td>
+</tr>
+<tr>
+<td><code>providers.tf</code></td>
+<td>Configure le fournisseur Azure et épingle l'abonnement de formation pour éviter tout déploiement sur un autre compte.</td>
+</tr>
+<tr>
+<td><code>variables.tf</code></td>
+<td>Déclare les paramètres d'entrée du projet.</td>
+</tr>
+<tr>
+<td><code>locals.tf</code></td>
+<td>Calcule le préfixe de nommage et les tags communs appliqués à toutes les ressources.</td>
+</tr>
+<tr>
+<td><code>network.tf</code></td>
+<td>Crée le groupe de ressources, le réseau virtuel et les deux subnets.</td>
+</tr>
+<tr>
+<td><code>security.tf</code></td>
+<td>Crée les deux groupes de sécurité réseau, leurs règles et leurs associations.</td>
+</tr>
+<tr>
+<td><code>compute.tf</code></td>
+<td>Crée les adresses publiques, les interfaces réseau et les deux machines web.</td>
+</tr>
+<tr>
+<td><code>loadbalancer.tf</code></td>
+<td>Crée le répartiteur de charge, le pool de backend, la sonde de santé et la règle de répartition.</td>
+</tr>
+<tr>
+<td><code>storage.tf</code></td>
+<td>Crée le compte de stockage privé et son conteneur.</td>
+</tr>
+<tr>
+<td><code>database.tf</code></td>
+<td>Crée la zone DNS privée, le lien réseau, le serveur MySQL managé et la base applicative.</td>
+</tr>
+<tr>
+<td><code>monitoring.tf</code></td>
+<td>Crée l'espace de travail Log Analytics.</td>
+</tr>
+<tr>
+<td><code>outputs.tf</code></td>
+<td>Expose les informations utiles après le déploiement.</td>
+</tr>
+<tr>
+<td><code>templates/cloud-init.yml</code></td>
+<td>Installe Apache et PHP au premier démarrage des machines.</td>
+</tr>
+<tr>
+<td><code>terraform.tfvars.example</code></td>
+<td>Donne un exemple de valeurs à recopier sans secret versionné.</td>
+</tr>
+<tr>
+<td><code>README.md</code></td>
+<td>Explique le rôle des fichiers et la procédure d'utilisation.</td>
+</tr>
+</tbody>
+</table>
+<p>Le sujet demande au minimum les fichiers <code>main.tf</code>, <code>variables.tf</code>, <code>outputs.tf</code>, <code>terraform.tfvars</code> et un <code>README.md</code>. Le rôle attendu d'un fichier <code>main.tf</code> est ici réparti dans les fichiers thématiques <code>network.tf</code>, <code>security.tf</code>, <code>compute.tf</code>, <code>loadbalancer.tf</code>, <code>storage.tf</code>, <code>database.tf</code> et <code>monitoring.tf</code>, ce qui améliore la lisibilité sans changer le résultat.</p>
+<h2>Question 9. Ressources créées</h2>
+<p>Le projet crée l'ensemble des ressources attendues, à savoir un Resource Group, un réseau virtuel, deux subnets, deux groupes de sécurité réseau avec des règles HTTP, HTTPS et SSH maîtrisées, deux machines virtuelles Linux configurées par cloud-init, un répartiteur de charge avec sonde et règle, un compte de stockage privé, une base de données MySQL managée et un espace de travail Log Analytics pour la supervision.</p>
+<p>Les règles de filtrage suivent le principe du moindre accès. Le groupe de sécurité du subnet web autorise les ports 80 et 443 depuis Internet et le port 22 uniquement depuis l'adresse de l'administrateur. Le groupe de sécurité du subnet de données autorise le port 3306 uniquement depuis la plage du subnet web, ce qui empêche toute exposition directe de la base sur Internet.</p>
+<h2>Question 10. Variables et outputs</h2>
+<p>Le code utilise des variables pour tous les éléments demandés, ce qui le rend réutilisable sur plusieurs environnements sans modification. Les variables couvrent le nom du projet, la région Azure, l'environnement, le préfixe de nommage calculé à partir du projet et de l'environnement, la plage d'adressage du réseau virtuel et la taille des machines. Le mot de passe de la base est déclaré comme variable sensible afin qu'il n'apparaisse pas en clair dans les sorties.</p>
+<p>Le projet expose cinq outputs. Les trois principaux sont le nom du groupe de ressources, l'adresse publique du point d'entrée web sur le répartiteur de charge et le nom du compte de stockage. Les deux autres exposent les adresses des machines web et le nom de domaine privé du serveur MySQL, ce qui facilite l'administration et la connexion applicative.</p>
+<h2>Question 11. Validation du déploiement</h2>
+<p>Le déploiement a été réalisé réellement avec la séquence Terraform habituelle, à savoir l'initialisation, le formatage, la validation, la prévisualisation par un plan, puis l'application. Les preuves de validation sont rassemblées dans le dossier <code>screenshots</code> et comprennent le groupe de ressources, le réseau virtuel et ses subnets, les groupes de sécurité réseau, les machines web, le point d'entrée HTTP et un extrait lisible du résultat du déploiement.</p>
+<p>L'application a réussi avec la mention finale indiquant vingt neuf ressources ajoutées, sans modification ni suppression. Les serveurs web répondent à travers le répartiteur de charge, et chaque machine renvoie sa propre page, ce qui confirme la répartition de charge. Les valeurs réelles produites par le déploiement sont les suivantes.</p>
+<table>
+<thead>
+<tr>
+<th>Sortie</th>
+<th>Valeur réelle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Groupe de ressources</td>
+<td>rg-novaretail-prod</td>
+</tr>
+<tr>
+<td>Adresse publique du point d'entrée web</td>
+<td>20.91.214.201</td>
+</tr>
+<tr>
+<td>Adresses des machines web</td>
+<td>4.223.75.235 et 20.240.138.86</td>
+</tr>
+<tr>
+<td>Compte de stockage</td>
+<td>stnovaretailp2fxae</td>
+</tr>
+<tr>
+<td>Serveur MySQL managé</td>
+<td>mysql-novaretail-prod-p2fxae.mysql.database.azure.com</td>
+</tr>
+</tbody>
+</table>
+<p>Le test du point d'entrée renvoie la page de la première machine, et le test direct de chaque machine renvoie sa page propre, ce qui valide à la fois la couche web et la répartition. L'inventaire des ressources confirme la présence du groupe de ressources, du réseau virtuel et de ses deux subnets, des deux groupes de sécurité réseau, des deux machines avec leurs interfaces et adresses, du répartiteur de charge, du compte de stockage, de la base MySQL managée avec sa zone DNS privée, et de l'espace de travail Log Analytics. Les extraits du résultat de déploiement et de l'inventaire sont fournis dans le dossier <code>screenshots</code>.</p>
+<h1>Partie 4. Administration, exploitation et automatisation</h1>
+<h2>Question 12. Inventaire d'exploitation</h2>
+<p>L'inventaire ci-dessous reprend les ressources réellement déployées dans le groupe <code>rg-novaretail-prod</code>, en région Sweden Central. Toutes les ressources portent les mêmes tags communs, à savoir application, environment, owner, cost_center, criticality, review_date et managed_by, ce qui facilite la lecture et le pilotage. La colonne du groupe de ressources est identique pour toutes les lignes, elle vaut <code>rg-novaretail-prod</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Nom</th>
+<th>Type</th>
+<th>Région</th>
+<th>Rôle dans l'architecture</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vnet-novaretail-prod</td>
+<td>Virtual Network</td>
+<td>Sweden Central</td>
+<td>Réseau privé qui isole l'application et porte les subnets.</td>
+</tr>
+<tr>
+<td>snet-web et snet-data</td>
+<td>Subnets</td>
+<td>Sweden Central</td>
+<td>Séparent la couche web de la couche données.</td>
+</tr>
+<tr>
+<td>nsg-novaretail-prod-web</td>
+<td>Network Security Group</td>
+<td>Sweden Central</td>
+<td>Filtre les flux du subnet web et n'ouvre que les ports utiles.</td>
+</tr>
+<tr>
+<td>nsg-novaretail-prod-data</td>
+<td>Network Security Group</td>
+<td>Sweden Central</td>
+<td>Restreint l'accès à la base au seul subnet web.</td>
+</tr>
+<tr>
+<td>vm-novaretail-prod-web-1</td>
+<td>Virtual Machine</td>
+<td>Sweden Central</td>
+<td>Première machine applicative qui sert l'application web.</td>
+</tr>
+<tr>
+<td>vm-novaretail-prod-web-2</td>
+<td>Virtual Machine</td>
+<td>Sweden Central</td>
+<td>Seconde machine applicative qui assure la redondance.</td>
+</tr>
+<tr>
+<td>nic-novaretail-prod-web-1 et 2</td>
+<td>Network Interfaces</td>
+<td>Sweden Central</td>
+<td>Connectent les machines au subnet web.</td>
+</tr>
+<tr>
+<td>vm-novaretail-prod-web-1 et 2 OsDisk</td>
+<td>Managed Disks</td>
+<td>Sweden Central</td>
+<td>Disques système des deux machines web.</td>
+</tr>
+<tr>
+<td>pip-novaretail-prod-web-1 et 2</td>
+<td>Public IP Addresses</td>
+<td>Sweden Central</td>
+<td>Adresses publiques utilisées pour l'administration.</td>
+</tr>
+<tr>
+<td>lb-novaretail-prod-web</td>
+<td>Load Balancer</td>
+<td>Sweden Central</td>
+<td>Répartit le trafic entrant vers les deux machines web.</td>
+</tr>
+<tr>
+<td>pip-novaretail-prod-lb</td>
+<td>Public IP Address</td>
+<td>Sweden Central</td>
+<td>Adresse publique du point d'entrée web.</td>
+</tr>
+<tr>
+<td>mysql-novaretail-prod</td>
+<td>Azure Database for MySQL</td>
+<td>Sweden Central</td>
+<td>Base de données managée des commandes, non exposée.</td>
+</tr>
+<tr>
+<td>novaretail.private.mysql...</td>
+<td>Private DNS Zone</td>
+<td>Global</td>
+<td>Résolution privée du nom du serveur MySQL.</td>
+</tr>
+<tr>
+<td>stnovaretail...</td>
+<td>Storage Account</td>
+<td>Sweden Central</td>
+<td>Stockage privé des documents clients.</td>
+</tr>
+<tr>
+<td>law-novaretail-prod</td>
+<td>Log Analytics Workspace</td>
+<td>Sweden Central</td>
+<td>Espace de supervision des métriques et des journaux.</td>
+</tr>
+</tbody>
+</table>
+<p>L'inventaire complet au format texte est produit automatiquement par le script d'exploitation et conservé dans le dossier <code>exports</code>.</p>
+<h2>Question 13. Tags et gouvernance</h2>
+<p>La stratégie de tags repose sur un ensemble de clés appliquées de façon uniforme à toutes les ressources par le code Terraform. Chaque clé répond à un besoin précis d'exploitation ou de pilotage des coûts.</p>
+<table>
+<thead>
+<tr>
+<th>Tag</th>
+<th>Exemple</th>
+<th>Utilité</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>environment</td>
+<td>prod</td>
+<td>Distingue les environnements et permet de filtrer ou d'arrêter les ressources hors production.</td>
+</tr>
+<tr>
+<td>application</td>
+<td>novaretail</td>
+<td>Relie chaque ressource à l'application concernée.</td>
+</tr>
+<tr>
+<td>owner</td>
+<td>equipe-cloud</td>
+<td>Identifie l'équipe responsable et facilite l'escalade en cas d'incident.</td>
+</tr>
+<tr>
+<td>cost_center</td>
+<td>formation</td>
+<td>Affecte les coûts à un budget pour le suivi FinOps.</td>
+</tr>
+<tr>
+<td>criticality</td>
+<td>medium</td>
+<td>Aide à prioriser la surveillance et les actions de sécurité.</td>
+</tr>
+<tr>
+<td>review_date</td>
+<td>2026-12-31</td>
+<td>Fixe une date de revue pour éviter que des ressources soient oubliées.</td>
+</tr>
+</tbody>
+</table>
+<p>Les tags sont essentiels pour l'administration et le FinOps. Du côté de l'administration, ils permettent de retrouver rapidement toutes les ressources d'une application ou d'un environnement, d'identifier le responsable d'une ressource et de cibler les actions de maintenance. Du côté du FinOps, ils permettent de ventiler les coûts par application, par environnement et par centre de coût, de poser des budgets précis et de repérer les ressources sans propriétaire qui risquent de générer des dépenses non maîtrisées. Comme les tags sont appliqués par Terraform, ils restent cohérents à chaque déploiement et ne dépendent pas d'une saisie manuelle.</p>
+<h2>Question 14. Automatisation d'une tâche récurrente</h2>
+<p>Le script <code>scripts/inventaire_exploitation.sh</code> automatise un contrôle d'exploitation utile et a été exécuté réellement sur le groupe déployé.</p>
+<p>L'objectif du script est de produire un inventaire des ressources d'un groupe donné, de vérifier que chaque ressource porte un tag obligatoire et d'afficher l'état des machines virtuelles. Cette tâche est utile au quotidien pour garder un inventaire à jour, contrôler la gouvernance des tags et vérifier rapidement la disponibilité des machines.</p>
+<p>Les entrées attendues sont le nom du groupe de ressources, qui est obligatoire, et le nom du tag obligatoire à contrôler, qui est optionnel et vaut owner par défaut.</p>
+<p>La sortie comprend un fichier CSV d'inventaire écrit dans le dossier <code>exports</code>, un résumé affiché à l'écran avec le nombre de ressources, la liste des ressources qui ne portent pas le tag obligatoire, et un tableau de l'état des machines virtuelles.</p>
+<p>La logique principale s'appuie sur Azure CLI. Le script liste les ressources avec leur type, leur région et la valeur du tag contrôlé, puis il interroge séparément les ressources dont le tag est absent, et enfin il récupère l'état d'alimentation des machines virtuelles. Il commence par la directive de robustesse qui arrête l'exécution en cas d'erreur ou de variable non définie, il centralise ses paramètres dans des variables, et il n'effectue aucune modification.</p>
+<p>Les limites du script sont les suivantes. Il lit l'état courant et ne corrige pas automatiquement les écarts, ce qui est volontaire pour éviter toute action non maîtrisée. Il dépend d'une session Azure CLI active et de droits de lecture sur le groupe. Il contrôle un seul tag obligatoire à la fois, même s'il pourrait être étendu pour vérifier une liste de tags.</p>
+<p>Lors de l'exécution réelle, le script a inventorié dix huit ressources, a confirmé que toutes portaient le tag owner, et a montré les deux machines web en état d'exécution. La trace de cette exécution est conservée dans le dossier <code>screenshots</code>.</p>
+<h1>Partie 5. Monitoring, FinOps et sécurité</h1>
+<p>Le dispositif décrit ci-dessous a été déployé réellement sur le groupe <code>rg-novaretail-prod</code> au moyen du code Terraform, ce qui garantit qu'il est reproductible. Les preuves sont conservées dans le dossier <code>screenshots</code>.</p>
+<h2>Question 15. Monitoring et alertes</h2>
+<p>La supervision s'appuie sur Azure Monitor et sur l'espace de travail Log Analytics <code>law-novaretail-prod</code>, qui centralise les métriques et les journaux. Les indicateurs retenus couvrent la disponibilité, la performance, la base de données, le stockage et le coût.</p>
+<table>
+<thead>
+<tr>
+<th>Élément surveillé</th>
+<th>Métrique ou journal</th>
+<th>Seuil proposé</th>
+<th>Action attendue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Disponibilité applicative</td>
+<td>Disponibilité des machines derrière le répartiteur de charge, métrique DipAvailability</td>
+<td>Inférieure à 100 pour cent sur cinq minutes</td>
+<td>Vérifier les machines et la sonde de santé, alerte de sévérité élevée envoyée à l'équipe.</td>
+</tr>
+<tr>
+<td>Processeur des machines web</td>
+<td>Métrique Percentage CPU des machines</td>
+<td>Supérieur à 70 pour cent sur cinq minutes</td>
+<td>Analyser la charge, envisager une montée en taille ou en nombre d'instances.</td>
+</tr>
+<tr>
+<td>Base de données</td>
+<td>Processeur et nombre de connexions du serveur MySQL managé</td>
+<td>Processeur supérieur à 80 pour cent</td>
+<td>Analyser les requêtes et ajuster le niveau de service.</td>
+</tr>
+<tr>
+<td>Stockage</td>
+<td>Transactions et capacité du compte de stockage</td>
+<td>Capacité proche de la limite définie</td>
+<td>Vérifier l'usage et la politique de cycle de vie.</td>
+</tr>
+<tr>
+<td>Coût</td>
+<td>Budget mensuel consommé sur le groupe de ressources</td>
+<td>Quatre vingt pour cent du budget</td>
+<td>Analyser les ressources et arrêter celles qui sont inutiles.</td>
+</tr>
+</tbody>
+</table>
+<p>Deux alertes ont été créées et sont actives. La première se déclenche lorsque le processeur de la première machine web dépasse 70 pour cent pendant cinq minutes. La seconde se déclenche lorsque la disponibilité des machines derrière le répartiteur de charge diminue. Les deux alertes sont reliées au groupe d'action <code>ag-novaretail-prod-ops</code>, qui notifie l'équipe d'exploitation. À ces deux alertes s'ajoutent les notifications de budget à quatre vingt pour cent et à cent pour cent.</p>
+<p>Un tableau de bord d'exploitation regroupe ces indicateurs dans le portail afin de répondre aux questions de pilotage, à savoir si le service fonctionne, si la performance se dégrade et si le coût reste maîtrisé. Les personnes concernées par les alertes sont les membres de l'équipe d'exploitation, joints par le groupe d'action commun.</p>
+<h2>Question 16. Analyse FinOps</h2>
+<p>Les principaux postes de coût de l'architecture sont les deux machines web et leurs disques, le répartiteur de charge avec ses adresses publiques, le serveur MySQL managé, le compte de stockage et l'espace de travail Log Analytics. Les machines et la base représentent la part la plus importante, car elles sont actives en continu.</p>
+<p>Les risques de dépassement budgétaire viennent surtout des machines laissées allumées en dehors des périodes d'usage, de la base toujours active, des adresses publiques réservées et du volume de journaux conservés. L'absence de suivi favoriserait l'apparition de ressources oubliées.</p>
+<p>Le suivi repose sur les tags déjà appliqués, en particulier application, environment, owner et cost_center, qui permettent de ventiler les coûts par projet et par équipe. Un budget mensuel de cinquante euros a été défini sur le groupe de ressources, avec une notification à quatre vingt pour cent du montant réel et une notification à cent pour cent du montant prévu.</p>
+<p>Trois pistes d'optimisation à court terme sont proposées. La première consiste à arrêter et libérer les machines en dehors des périodes d'usage, ce qui supprime le coût de calcul. La deuxième consiste à supprimer les adresses publiques directes des machines pour ne garder que le point d'entrée du répartiteur de charge. La troisième consiste à ajuster la taille des machines et le niveau de la base selon les métriques observées.</p>
+<p>Deux pistes d'optimisation à moyen terme complètent l'ensemble. La première consiste à souscrire des réservations ou un plan d'économie lorsque l'usage devient stable et prévisible. La seconde consiste à appliquer une politique de cycle de vie sur le compte de stockage et à limiter la durée de conservation des journaux, afin de réduire les coûts de stockage dans la durée.</p>
+<h2>Question 17. Revue de sécurité</h2>
+<p>La revue ci-dessous reprend la posture réellement déployée et signale les risques résiduels avec leur mesure corrective.</p>
+<table>
+<thead>
+<tr>
+<th>Risque</th>
+<th>Description</th>
+<th>Criticité</th>
+<th>Mesure corrective</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accès administrateur trop ouvert</td>
+<td>L'accès SSH est ouvert sur les machines, mais il est déjà restreint à l'adresse de l'administrateur.</td>
+<td>Moyenne</td>
+<td>Conserver la restriction par adresse et faire évoluer vers Azure Bastion pour supprimer les adresses publiques.</td>
+</tr>
+<tr>
+<td>Exposition réseau</td>
+<td>Les machines portent des adresses publiques, alors que seule l'entrée du répartiteur de charge a besoin d'être exposée.</td>
+<td>Moyenne</td>
+<td>Retirer les adresses publiques des machines et passer par un accès privé.</td>
+</tr>
+<tr>
+<td>Exposition de la base</td>
+<td>La base MySQL est managée et privée, accessible uniquement depuis le subnet web sur le port 3306.</td>
+<td>Faible</td>
+<td>Maintenir l'accès privé et envisager un point de terminaison privé pour renforcer l'isolement.</td>
+</tr>
+<tr>
+<td>Filtrage réseau</td>
+<td>Les groupes de sécurité limitent déjà les flux aux ports utiles.</td>
+<td>Faible</td>
+<td>Réviser régulièrement les règles et fermer tout port devenu inutile.</td>
+</tr>
+<tr>
+<td>Protection du stockage</td>
+<td>Le compte de stockage est privé, en TLS 1.2, sans accès public aux blobs, avec versioning.</td>
+<td>Faible</td>
+<td>Ajouter la suppression réversible et une politique de cycle de vie.</td>
+</tr>
+<tr>
+<td>Gestion des secrets</td>
+<td>Le mot de passe de la base est conservé hors du dépôt et n'est pas versionné, mais il reste dans un fichier local.</td>
+<td>Moyenne</td>
+<td>Stocker les secrets dans Azure Key Vault et utiliser une identité managée.</td>
+</tr>
+<tr>
+<td>Journaux et audit</td>
+<td>L'espace Log Analytics est en place, et le journal d'activité peut y être exporté.</td>
+<td>Moyenne</td>
+<td>Activer l'export du journal d'activité et des journaux de diagnostic vers l'espace de travail.</td>
+</tr>
+<tr>
+<td>Chiffrement</td>
+<td>Les données sont chiffrées au repos par défaut sur le stockage et la base.</td>
+<td>Faible</td>
+<td>Vérifier la conformité et documenter les clés.</td>
+</tr>
+<tr>
+<td>Sauvegarde</td>
+<td>La base managée dispose de sauvegardes automatiques, mais aucune restauration n'a été testée.</td>
+<td>Moyenne</td>
+<td>Définir une politique de sauvegarde et tester une restauration.</td>
+</tr>
+<tr>
+<td>Droits d'administration</td>
+<td>Le contrôle d'accès basé sur les rôles n'a pas encore été restreint au strict nécessaire.</td>
+<td>Moyenne</td>
+<td>Appliquer le principe du moindre privilège et réserver le rôle Owner à une seule personne.</td>
+</tr>
+<tr>
+<td>Chiffrement des flux web</td>
+<td>Le trafic web est en clair sur le port 80, sans redirection HTTPS.</td>
+<td>Moyenne</td>
+<td>Mettre en place HTTPS, idéalement via une Application Gateway avec terminaison TLS et pare-feu applicatif.</td>
+</tr>
+</tbody>
+</table>
+<h2>Question 18. Note de recommandations destinée à la DSI</h2>
+<p>Cette note présente l'architecture retenue pour la migration de l'application de gestion de commandes, les bénéfices attendus, les risques résiduels, les arbitrages, un plan d'action priorisé et les limites de la proposition.</p>
+<p>L'architecture retenue répartit la charge web sur deux machines placées derrière un répartiteur de charge, externalise la base de données vers un service MySQL managé et privé, déplace les documents vers un compte de stockage privé, et met en place une supervision centralisée avec des alertes et un budget. L'ensemble est décrit en code Terraform, ce qui rend les déploiements reproductibles.</p>
+<p>Les bénéfices attendus sont l'amélioration de la disponibilité grâce à la redondance de la couche web, la réduction de la charge d'exploitation grâce aux services managés, l'amélioration de la sécurité grâce à la segmentation du réseau et au filtrage, et une meilleure maîtrise des coûts grâce aux tags, au budget et aux alertes.</p>
+<p>Les risques résiduels concernent surtout l'absence de chiffrement du trafic web, la présence d'adresses publiques sur les machines, la conservation locale du secret de la base et l'absence de test de restauration. Ces points sont identifiés et associés à des mesures correctives.</p>
+<p>Les arbitrages reflètent l'équilibre entre le coût, la performance et la sécurité. Le répartiteur de charge simple a été retenu pour cette première migration, alors qu'une Application Gateway avec pare-feu applicatif apporterait une sécurité supérieure pour un coût et une complexité plus élevés. La base managée coûte davantage qu'une base installée sur machine, mais elle réduit fortement le risque et la charge d'exploitation.</p>
+<p>Le plan d'action priorisé propose, en priorité haute, de mettre en place le chiffrement HTTPS, de stocker le secret de la base dans un coffre et de restreindre le contrôle d'accès. En priorité moyenne, il propose de retirer les adresses publiques des machines au profit d'un accès privé, d'activer l'export des journaux d'activité et de tester une restauration. En priorité plus basse, il propose d'optimiser les coûts par des réservations et une politique de cycle de vie.</p>
+<p>Les limites de la proposition tiennent au cadre de l'exercice. L'architecture reste volontairement simple, mono région, et ne couvre pas encore la haute disponibilité multi zone, la reprise après incident formalisée, ni l'intégration continue du déploiement. Ces évolutions relèveraient d'un projet de production ultérieur, à dimensionner selon la criticité réelle de l'application.</p>
+<h1>Partie 6. Questions théoriques</h1>
+<p>Les réponses sont courtes et justifiées, et contextualisées au cas NovaRetail lorsque cela a du sens.</p>
+<h2>Questions cloud, Azure et exploitation</h2>
+<ol>
+<li>
+<p>Différence entre IaaS, PaaS et SaaS.
+Les trois modèles décrivent le niveau de service consommé. En IaaS, le fournisseur livre l'infrastructure brute et le client gère encore le système et l'application, par exemple Azure Virtual Machines. En PaaS, le fournisseur gère la plateforme et le client se concentre sur le code et les données, par exemple Azure App Service ou Azure Database for MySQL. En SaaS, le logiciel est consommé directement comme un service, par exemple Microsoft 365.</p>
+</li>
+<li>
+<p>Pourquoi préférer une base managée plutôt qu'une base installée sur une machine dans ce cas.
+Une base managée comme Azure Database for MySQL délègue à Azure les sauvegardes, les correctifs, la supervision et les options de haute disponibilité, ce qui réduit la charge d'exploitation et le risque humain. Pour NovaRetail, dont l'équipe est réduite et dont la base est critique, cette délégation fiabilise le service et remplace les sauvegardes manuelles et irrégulières de l'existant.</p>
+</li>
+<li>
+<p>Rôle d'un Virtual Network dans Azure.
+Un Virtual Network est le réseau privé logique d'Azure. Il définit une plage d'adresses privées, héberge les ressources comme les machines, et permet de les segmenter en subnets et de contrôler les flux, ce qui isole l'application et applique une défense en profondeur.</p>
+</li>
+<li>
+<p>Différence entre un Network Security Group et une règle RBAC.
+Un Network Security Group filtre le trafic réseau entrant et sortant selon des ports, des protocoles et des adresses. Une règle RBAC accorde à des identités des droits d'action sur des ressources Azure. Le premier protège la couche réseau, le second protège la couche de gestion et les autorisations, et les deux contrôles sont complémentaires.</p>
+</li>
+<li>
+<p>Pourquoi l'Infrastructure as Code réduit les risques d'exploitation.
+L'Infrastructure as Code décrit l'infrastructure en code versionné, ce qui la rend reproductible, relisible et traçable. Elle réduit les risques d'exploitation parce qu'elle supprime les manipulations manuelles non documentées, garantit que les environnements sont identiques, permet de prévisualiser les changements avant de les appliquer, et facilite une destruction propre.</p>
+</li>
+<li>
+<p>Que contient le state Terraform et pourquoi il doit être protégé.
+Le state contient la correspondance entre les ressources déclarées dans le code et les ressources réellement créées, avec leurs identifiants et parfois des valeurs sensibles. Il doit être protégé parce que sa perte fait perdre le suivi des ressources, parce qu'il peut contenir des secrets, et parce qu'un accès partagé sans verrouillage provoque des conflits. La bonne pratique est un backend distant sécurisé.</p>
+</li>
+<li>
+<p>Différence entre monitoring, logs et alertes.
+Le monitoring collecte et suit des indicateurs pour vérifier que le système fonctionne. Les logs sont des événements détaillés qui aident à comprendre pourquoi un comportement se produit. Les alertes sont des règles qui préviennent lorsqu'un seuil ou une condition est atteint. Le monitoring montre l'état, les logs expliquent, et les alertes déclenchent l'action.</p>
+</li>
+<li>
+<p>Trois métriques utiles pour piloter une application web.
+On surveille le taux de disponibilité ou le taux d'erreurs HTTP, le temps de réponse ou la latence, et l'utilisation du processeur des machines. On peut y ajouter le nombre de requêtes pour suivre la charge.</p>
+</li>
+<li>
+<p>Pourquoi les tags sont essentiels pour le FinOps.
+Les tags rattachent chaque ressource à une application, un environnement, un propriétaire et un centre de coût. Ils sont essentiels au FinOps parce qu'ils permettent de ventiler les coûts, de poser des budgets précis, d'identifier les ressources sans propriétaire et de repérer les dépenses inutiles.</p>
+</li>
+<li>
+<p>Trois mesures de sécurité prioritaires avant une mise en production.
+La première mesure consiste à restreindre les accès d'administration, par exemple fermer le SSH au monde entier et le limiter à une adresse ou à un bastion. La deuxième consiste à protéger les secrets dans un coffre plutôt que dans le code. La troisième consiste à appliquer le principe du moindre privilège sur les rôles. On y ajoute le chiffrement des flux et la suppression de toute exposition publique de la base et du stockage.</p>
+</li>
+</ol>
+<h2>Questions courtes, traçabilité blockchain</h2>
+<ol start="11">
+<li>
+<p>Objectif principal d'une blockchain dans un système d'information.
+L'objectif est de fournir une preuve partagée, horodatée et difficile à falsifier d'un événement ou d'une donnée, lorsque plusieurs acteurs doivent se fier à un historique commun sans dépendre d'une autorité unique.</p>
+</li>
+<li>
+<p>Composant qui permet de détecter qu'une donnée a été modifiée.
+C'est le hash, c'est-à-dire une empreinte cryptographique du contenu dont la valeur change dès que la donnée est modifiée.</p>
+</li>
+<li>
+<p>Pourquoi dit-on qu'une blockchain est append-only.
+Parce qu'on y ajoute de nouvelles transactions sans réécrire l'historique existant, ce qui construit une piste d'audit où une correction se fait par ajout plutôt que par suppression.</p>
+</li>
+<li>
+<p>À quel type de contexte d'entreprise Hyperledger Fabric est-il surtout adapté.
+Il est adapté à un contexte où les participants sont connus et identifiés, par exemple un consortium, une chaîne d'approvisionnement, la banque, l'assurance ou l'industrie, avec un besoin de confidentialité et de gouvernance.</p>
+</li>
+<li>
+<p>À quels usages Ethereum est-il principalement adapté.
+Il est adapté aux usages où la preuve doit être publique et largement vérifiable, comme les applications décentralisées, les jetons et actifs numériques, et les logiques programmables transparentes.</p>
+</li>
+<li>
+<p>À quel besoin de traçabilité ou d'intégrité Azure Confidential Ledger répond.
+Il répond au besoin de disposer d'un registre append-only résistant à la falsification pour des données sensibles, par exemple un journal d'audit inviolable, sans avoir à construire un réseau blockchain complet.</p>
+</li>
+<li>
+<p>Rôle d'un smart contract.
+Son rôle est de porter et d'appliquer automatiquement les règles métier qui doivent être partagées et vérifiables, comme créer un actif, vérifier une condition, refuser une opération non conforme ou enregistrer un événement horodaté.</p>
+</li>
+<li>
+<p>Pourquoi stocke-t-on généralement les documents lourds ou sensibles off-chain.
+Parce que la blockchain n'est pas faite pour les gros volumes, parce que les données personnelles ne peuvent pas être effacées d'un registre immuable, et parce qu'il suffit d'y inscrire une empreinte pour garantir l'intégrité tout en conservant le document dans un stockage contrôlé.</p>
+</li>
+<li>
+<p>Que peut provoquer la compromission d'une clé privée.
+Elle permet de signer des transactions frauduleuses au nom de son propriétaire et peut entraîner une perte de contrôle des actifs ou des opérations, c'est pourquoi elle doit être protégée par un coffre, une rotation et une séparation des rôles.</p>
+</li>
+<li>
+<p>Bonne pratique pour les données personnelles dans une solution de traçabilité blockchain.
+La bonne pratique est de ne pas inscrire les données personnelles on-chain et de n'y stocker que leur empreinte, en conservant les données elles-mêmes off-chain dans un stockage sécurisé avec contrôle d'accès, afin de respecter la confidentialité et le droit à l'effacement.</p>
+</li>
+</ol></body></html>
