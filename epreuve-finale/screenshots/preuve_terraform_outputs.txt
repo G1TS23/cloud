@@ -1,0 +1,8 @@
+load_balancer_public_ip = "20.91.214.201"
+mysql_server_fqdn = "mysql-novaretail-prod-p2fxae.mysql.database.azure.com"
+resource_group_name = "rg-novaretail-prod"
+storage_account_name = "stnovaretailp2fxae"
+web_vm_public_ips = [
+  "4.223.75.235",
+  "20.240.138.86",
+]

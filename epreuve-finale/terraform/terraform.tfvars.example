@@ -1,0 +1,7 @@
+# Copier ce fichier en terraform.tfvars puis renseigner les valeurs reelles.
+# Le fichier terraform.tfvars ne doit jamais etre versionne, car il contient un secret.
+
+allowed_ssh_cidr     = "X.X.X.X/32"
+ssh_public_key_path  = "~/.ssh/id_rsa.pub"
+mysql_admin_login    = "novaadmin"
+mysql_admin_password = "RemplacerParUnMotDePasseFort"
