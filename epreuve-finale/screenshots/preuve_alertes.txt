@@ -1,0 +1,4 @@
+Nom                               Severite    Active    Metrique
+--------------------------------  ----------  --------  ---------------
+alert-cpu-novaretail-prod-web-1   2           True      Percentage CPU
+alert-backend-novaretail-prod-lb  1           True      DipAvailability

@@ -80,3 +80,15 @@ variable "mysql_sku_name" {
   type        = string
   default     = "B_Standard_B1ms"
 }
+
+variable "ops_email" {
+  description = "Adresse de contact de l'equipe d'exploitation pour les alertes et le budget."
+  type        = string
+  default     = "equipe-ops@novaretail.example"
+}
+
+variable "monthly_budget_amount" {
+  description = "Montant du budget mensuel du groupe de ressources, en euros."
+  type        = number
+  default     = 50
+}
