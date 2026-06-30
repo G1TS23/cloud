@@ -6,6 +6,7 @@ Ce projet décrit et déploie l'infrastructure cible de NovaRetail sur Microsoft
 
 | Fichier | Rôle |
 |---|---|
+| `main.tf` | Point d'entrée du projet, porte le groupe de ressources. |
 | `versions.tf` | Déclare la version de Terraform et les fournisseurs azurerm et random. |
 | `providers.tf` | Configure le fournisseur Azure et épingle l'abonnement de formation. |
 | `variables.tf` | Déclare les paramètres d'entrée comme le projet, la région, l'adressage et la taille des machines. |

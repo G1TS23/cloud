@@ -8,6 +8,7 @@ Le projet est découpé en fichiers thématiques plutôt qu'en un seul fichier, 
 
 | Fichier | Rôle |
 |---|---|
+| `main.tf` | Sert de point d'entrée du projet et porte le groupe de ressources qui contient l'ensemble des autres ressources. |
 | `versions.tf` | Déclare la version minimale de Terraform et les fournisseurs azurerm et random. |
 | `providers.tf` | Configure le fournisseur Azure et épingle l'abonnement de formation pour éviter tout déploiement sur un autre compte. |
 | `variables.tf` | Déclare les paramètres d'entrée du projet. |
@@ -24,7 +25,7 @@ Le projet est découpé en fichiers thématiques plutôt qu'en un seul fichier, 
 | `terraform.tfvars.example` | Donne un exemple de valeurs à recopier sans secret versionné. |
 | `README.md` | Explique le rôle des fichiers et la procédure d'utilisation. |
 
-Le sujet demande au minimum les fichiers `main.tf`, `variables.tf`, `outputs.tf`, `terraform.tfvars` et un `README.md`. Le rôle attendu d'un fichier `main.tf` est ici réparti dans les fichiers thématiques `network.tf`, `security.tf`, `compute.tf`, `loadbalancer.tf`, `storage.tf`, `database.tf` et `monitoring.tf`, ce qui améliore la lisibilité sans changer le résultat.
+Le sujet demande au minimum les fichiers `main.tf`, `variables.tf`, `outputs.tf`, `terraform.tfvars` et un `README.md`. Le fichier `main.tf` est présent et sert de point d'entrée en portant le groupe de ressources, tandis que les autres ressources sont réparties dans des fichiers thématiques afin d'améliorer la lisibilité. Le fichier `terraform.tfvars` n'est volontairement pas livré, car il contient un secret, à savoir le mot de passe de la base. Seul l'exemple `terraform.tfvars.example` est fourni, et le fichier réel est exclu du dépôt par le fichier d'exclusion. Ce choix est cohérent avec le diagnostic de la partie 2, qui identifie justement la présence d'un secret dans un terraform.tfvars versionné comme une anomalie critique.
 
 ## Question 9. Ressources créées
 
