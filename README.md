@@ -16,6 +16,8 @@ Ce dépôt regroupe les travaux pratiques du module **Cloud Computing Azure**. C
 | **TP4** | Monitoring, FinOps & sécurité Azure (Log Analytics, alertes, budget, RBAC, Activity Log) | Terminé | [`tp4/sujet/`](tp4/sujet/) | [`tp4/`](tp4/) · [`dist/tp4/`](dist/tp4/) |
 
 > **Documentation :** index complet dans [`docs/README.md`](docs/README.md) — cours ([`docs/cours/`](docs/cours/)), sujets officiels (`tpN/sujet/`), **fiches de révision** ([`docs/revision/`](docs/revision/)) et **examens blancs** ([`docs/examens/`](docs/examens/)).
+>
+> **Épreuve finale (projet individuel) :** mise en situation sur le cas **NovaRetail**, avec architecture cible, déploiement Terraform réel, administration, monitoring, FinOps et sécurité. Travaux individuels dans [`projet-falahi-olivier/`](projet-falahi-olivier/) et [`projet-claverie-paul/`](projet-claverie-paul/).
 
 ---
 
@@ -334,23 +336,44 @@ cloud/
 │   ├── build_rendu_tp2_pdf.py
 │   ├── build_rendu_tp3_pdf.py
 │   └── build_rendu_tp4_pdf.py
-└── dist/
-    ├── tp1/
-    │   ├── TP1_ShopEasy_Livrables_complet.pdf
-    │   ├── Rendu_TP1_ShopEasy_Falahi_Claverie.zip
-    │   └── *.pdf
-    ├── tp2/
-    │   ├── TP2_ShopEasy_Terraform_Falahi_Claverie.pdf
-    │   ├── Rendu_TP2_ShopEasy_Terraform_Falahi_Claverie.zip
-    │   └── README_RENDU_TP2.md
-    ├── tp3/
-    │   ├── TP3_ShopEasy_Administration_Falahi_Claverie.pdf
-    │   ├── Rendu_TP3_ShopEasy_Administration_Falahi_Claverie.zip
-    │   └── README_RENDU_TP3.md
-    └── tp4/
-        ├── TP4_ShopEasy_Monitoring_FinOps_Securite_Falahi_Claverie.pdf
-        ├── Rendu_TP4_ShopEasy_Monitoring_FinOps_Securite_Falahi_Claverie.zip
-        └── README_RENDU_TP4.md
+├── dist/
+│   ├── tp1/
+│   │   ├── TP1_ShopEasy_Livrables_complet.pdf
+│   │   ├── Rendu_TP1_ShopEasy_Falahi_Claverie.zip
+│   │   └── *.pdf
+│   ├── tp2/
+│   │   ├── TP2_ShopEasy_Terraform_Falahi_Claverie.pdf
+│   │   ├── Rendu_TP2_ShopEasy_Terraform_Falahi_Claverie.zip
+│   │   └── README_RENDU_TP2.md
+│   ├── tp3/
+│   │   ├── TP3_ShopEasy_Administration_Falahi_Claverie.pdf
+│   │   ├── Rendu_TP3_ShopEasy_Administration_Falahi_Claverie.zip
+│   │   └── README_RENDU_TP3.md
+│   └── tp4/
+│       ├── TP4_ShopEasy_Monitoring_FinOps_Securite_Falahi_Claverie.pdf
+│       ├── Rendu_TP4_ShopEasy_Monitoring_FinOps_Securite_Falahi_Claverie.zip
+│       └── README_RENDU_TP4.md
+├── projet-falahi-olivier/       # Épreuve finale, cas NovaRetail (travail individuel)
+│   ├── README.md                # cahier de bord de l'épreuve
+│   ├── Rapport_final_epreuve_cloud_azure.pdf
+│   ├── Rendu_epreuve_cloud_azure.zip     # dossier de remise anonyme
+│   ├── sujet/                   # énoncé de l'épreuve
+│   ├── livrables/               # Partie1 à Partie6 (contenu du rapport)
+│   ├── terraform/               # projet IaC : main.tf, network.tf, security.tf,
+│   │                            #   compute.tf, loadbalancer.tf, storage.tf,
+│   │                            #   database.tf, monitoring.tf, finops.tf,
+│   │                            #   variables.tf, outputs.tf, locals.tf, ...
+│   ├── schema/                  # architecture cible (PNG + draw.io)
+│   ├── scripts/                 # script d'inventaire d'exploitation
+│   ├── exports/                 # inventaire CSV
+│   └── screenshots/             # captures de validation (portail + terminal)
+└── projet-claverie-paul/        # Épreuve finale, cas NovaRetail (travail individuel du binôme)
+    ├── README.md
+    ├── sujet/
+    ├── infra/                   # projet Terraform
+    ├── app/ · monitoring/ · scripts/
+    ├── livrables/ · rapport/ · schemas/ · screenshots/
+    └── dist/                    # rendu compilé (PDF + ZIP)
 ```
 
 ---
